@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="static/style.css">
+    <!-- To get the Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8e25a9fa30.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="main-page">
+        <div class="open-card">
+            <h4>What was the Question?</h4>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quam minus eius in, vitae ratione nesciunt nulla, repellat asperiores iusto earum possimus repudiandae recusandae! Accusamus magni nostrum veniam officia laboriosam quidem?</p>
+            <div class="self-assessment">
+                <button id="hard">Hard</button>
+                <button id="medium">Medium</button>
+                <button id="easy">Easy</button>
+            </div>
+        </div>
+        <div class="new-deck">
+            <div class="deck-name">
+                <input class="name" type="text" placeholder="New Deck" oninput="this.size = this.value.length"></input>
+                <i class="fa-regular fa-pen-to-square"></i>
+            </div>
+            <textarea class="deck-description" placeholder="Add a description..."></textarea>
+            <div class="cards">
+                {% for front, back in content %}
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <p>{{front}}</p>
+                        </div>
+                        <div class="card-back">
+                            <p>{{back}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
