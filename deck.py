@@ -19,7 +19,7 @@ class Deck:
     @name.setter
     def name(self, new_name: str):
         if not isinstance(new_name, str):
-            raise ValueError(f"Deck name must be of type 'string', got '{type(new_name)}'")
+            raise ValueError(f"Deck name must be of type 'str', got '{type(new_name)}'")
         self._name = new_name
 
     @property
@@ -39,7 +39,7 @@ class Deck:
 
     def add_card(self, new_card:Card):
         if not isinstance(new_card, Card):
-            raise ValueError(f"new_card must be of type 'Card', got '{type(new_card)}'")
+            raise ValueError(f"new_card must be of class 'Card', got '{type(new_card)}'")
         self._cards.append(new_card)
     
     def delete_card(self, card: Card):
