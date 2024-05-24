@@ -1,0 +1,21 @@
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE user (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+);
+
+CREATE TABLE card (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    frontside TEXT NOT NULL,
+    backside TEXT NOT NULL,
+    deck_id INTEGER NOT NULL,
+    FOREIGN KEY (deck_id) REFERENCES deck (id)
+);
+
+CREATE TABLE deck (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL
+)

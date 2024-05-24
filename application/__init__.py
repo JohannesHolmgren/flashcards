@@ -9,9 +9,11 @@
 import os
 from flask import Flask
 
+from . import db
+
 # The app creator
 def create_app(test_config=None):
-    # Create app and set config files relative to instance (main) folder
+    # Create app and set config files relative to instance folder
     app = Flask(__name__, instance_relative_config=True)
     
     # Set a temporary secret key which should be overridden later
@@ -38,5 +40,8 @@ def create_app(test_config=None):
     @app.route('/')
     def home():
         return 'HOME PAGE'
+    
+    # Call init app from database handler
+    db.init_app(app)
     
     return app
