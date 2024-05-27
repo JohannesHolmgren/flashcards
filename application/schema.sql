@@ -8,8 +8,8 @@ CREATE TABLE user (
 
 CREATE TABLE card (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    frontside TEXT NOT NULL,
-    backside TEXT NOT NULL,
+    front TEXT NOT NULL,
+    back TEXT NOT NULL,
     deck_id INTEGER NOT NULL,
     FOREIGN KEY (deck_id) REFERENCES deck (id)
 );
@@ -17,5 +17,7 @@ CREATE TABLE card (
 CREATE TABLE deck (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    description TEXT NOT NULL
+    description TEXT NOT NULL,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (id)
 )

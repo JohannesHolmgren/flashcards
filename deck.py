@@ -7,9 +7,11 @@
 from card import Card
 
 class Deck:
-    def __init__(self, name, description):
+    def __init__(self, name, description, id, user_id):
+        self._id = id
         self.name = name
         self.description = description
+        self._user_id = user_id
         self._cards = []
 
     @property
@@ -32,6 +34,13 @@ class Deck:
             raise ValueError(f"Deck name must be of type 'str', got '{type(new_description)}'")
         self._description = new_description
 
+    @property
+    def id(self):
+        return self._id
+    
+    @property
+    def user_id(self):
+        return self._user_id
 
     @property
     def cards(self):
@@ -50,25 +59,25 @@ class Deck:
 
 """ ----- Test cases -----"""
 def test_create_deck():
-    deck = Deck("name", "description")
-    card = Card("front", "back")
+    deck = Deck("name", "description", 1, 1)
+    card = Card("front", "back", 0, 0)
     deck.add_card(card)
     return(deck.name == "name"
            and deck.description == "description"
            and deck.cards[0] is card)
 
 def test_add_bad_card():
-    deck = Deck("name", "description")
+    deck = Deck("name", "description", 1, 1)
     card = 123
     try:
         deck.add_card(card)
     except ValueError as E:
-        return str(E) == "new_card must be of type 'Card', got '<class 'int'>'"
+        return str(E) == "new_card must be of class 'Card', got '<class 'int'>'"
     return False
 
 def test_delete_card():
-    deck = Deck("name", "description")
-    card = Card("front", "back")
+    deck = Deck("name", "description", 1, 1)
+    card = Card("front", "back", 0, 0)
     deck.add_card(card)
     deck.delete_card(card)
     return len(deck.cards) == 0

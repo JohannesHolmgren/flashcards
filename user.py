@@ -13,13 +13,18 @@
 from deck import Deck
 
 class User:
-    def __init__(self, name):
-        self.username = name
+    def __init__(self, username, id):
+        self._id = id
+        self.username = username
         self._decks = []
 
     @property
     def username(self):
         return self._username
+    
+    @property
+    def id(self):
+        return self._id
     
     @username.setter
     def username(self, name):

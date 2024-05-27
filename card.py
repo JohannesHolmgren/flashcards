@@ -18,9 +18,11 @@
 """
 
 class Card:
-    def __init__(self, front: str, back: str):
+    def __init__(self, front: str, back: str, id: int, deck_id: int):
+        self._id = id
         self.front = front
         self.back = back
+        self._deck_id = deck_id
 
     @property
     def front(self):
@@ -42,19 +44,31 @@ class Card:
             raise ValueError(f"back must be of type 'str', got '{type(value)}'")
         self._back = value
 
+    @property
+    def deck_id(self):
+        return self._deck_id
+    
+    @property
+    def id(self):
+        return self._id
+
 
 """ ----- Test Cases ----- """
 def test_create_card():
     front = "front"
     back = "back"
-    card = Card(front, back)
+    id = 0
+    deck_id = 1
+    card = Card(front, back, id, deck_id)
     return card.back == back and card.front == front
 
 def test_create_bad_front():
     front = 123
     back = "back"
+    id = 0
+    deck_id = 1
     try:
-        card = Card(front, back)
+        card = Card(front, back, id, deck_id)
     except ValueError as E:
         return str(E) == "front must be of type 'str', got '<class 'int'>'"
     else:
@@ -63,8 +77,10 @@ def test_create_bad_front():
 def test_create_bad_back():
     front = "front"
     back = 123
+    id = 0
+    deck_id = 1
     try:
-        card = Card(front, back)
+        card = Card(front, back, id, deck_id)
     except ValueError as E:
         return str(E) == "back must be of type 'str', got '<class 'int'>'"
     else:
@@ -75,3 +91,4 @@ if __name__ == '__main__':
     assert(test_create_card())
     assert(test_create_bad_front())
     assert(test_create_bad_back())
+    card = Card("heh", "hah", 1, 2)
