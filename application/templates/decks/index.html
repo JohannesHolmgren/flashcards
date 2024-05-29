@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Decks{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div id="add-deck">
+    <form method="post">
+      <label for="name">Name</label>
+      <input name="name" id="name" required>
+      <label for="description">Description</label>
+      <textarea name="description" id="description"> </textarea>
+      <input type="submit" value="Register">
+
+    </form>
+  </div>
+  <div id="deckviewer">
+    {% for deck in decks: %}
+      <div class="deck">
+        <p class="deck-name">{{deck['name']}}</p>
+        <p class="deck-description">{{deck['description']}}</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

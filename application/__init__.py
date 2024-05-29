@@ -7,9 +7,10 @@
 
 """
 import os
-from flask import Flask
+from flask import Flask, render_template
 
 from . import db
+from . import decks
 
 # The app creator
 def create_app(test_config=None):
@@ -41,7 +42,17 @@ def create_app(test_config=None):
     def home():
         return 'HOME PAGE'
     
+    @app.route('/haha')
+    def haha():
+        return render_template('decks/index.html')
+    
     # Call init app from database handler
     db.init_app(app)
+
+    # Register blueprint for deck-view
+    app.register_blueprint(decks.bp)
+    # Make 'index' and 'decks.index' same, ish
+    # app.add_url_rule('/', endpoint='index')
+
     
     return app
