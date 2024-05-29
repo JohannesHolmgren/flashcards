@@ -4,21 +4,28 @@
 -->
 
 <!DOCTYPE html>
-<title>{% block title %}{% endblock %} - Flashcards</title>
-<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+<head>
+  <title>{% block title %}{% endblock %} - Flashcards</title>
+  <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+  <!-- To get the Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/8e25a9fa30.js" crossorigin="anonymous"></script>
+</head>
 <nav>
-    <h1>Flashcards</h1>
-    <ul>
-        <li><a href="#">Register</a></li>
-        <li><a href="#">Log In</a></li>
-    </ul>
+  <h1>Flashcards</h1>
+  <ul>
+    <li><a href="#">Register</a></li>
+    <li><a href="#">Log In</a></li>
+  </ul>
 </nav>
 <section class="content">
-    <header>
-        {% block header %}{% endblock %}
-    </header>
-    {% for message in get_flashed_messages() %}
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
-    {% endfor %}
-    {% block content %}{% endblock %}
+  {% endfor %}
+  {% block content %}{% endblock %}
 </section>
