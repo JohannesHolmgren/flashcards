@@ -13,19 +13,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/8e25a9fa30.js" crossorigin="anonymous"></script>
 </head>
-<nav>
-  <h1>Flashcards</h1>
-  <ul>
-    <li><a href="#">Register</a></li>
-    <li><a href="#">Log In</a></li>
-  </ul>
-</nav>
-<section class="content">
-  <header>
-    {% block header %}{% endblock %}
-  </header>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-  {% block content %}{% endblock %}
-</section>
+<body>
+  <nav id="navbar">
+    <h1>Flashcards</h1>
+    <div class="navigation">
+      <ul>
+        <li><a href="#">Register</a></li>
+        <li><a href="#">Log In</a></li>
+      </ul>
+    </div>
+  </nav>
+  <section class="content">
+    <header>
+      {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </section>
+</body>

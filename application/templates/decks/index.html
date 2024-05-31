@@ -5,17 +5,17 @@
 {% endblock %}
 
 {% block content %}
-  <div id="add-deck">
-    <form method="post">
-      <label for="name">Name</label>
-      <input name="name" id="name" required>
-      <label for="description">Description</label>
-      <textarea name="description" id="description"> </textarea>
-      <input type="submit" value="Register">
-
-    </form>
-  </div>
   <div id="deckviewer">
+    <div id="add-deck">
+      <form method="post">
+        <!-- <label for="name">Name</label> -->
+        <input name="name" id="name" placeholder="name" required>
+        <label for="description">Description</label>
+        <textarea name="description" id="description"> </textarea>
+        <input type="submit" value="Register">
+  
+      </form>
+    </div>
     {% for deck in decks: %}
       <div class="deck">
         <h4 class="deck-name">{{deck['name']}}</h4>
