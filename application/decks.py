@@ -9,7 +9,7 @@
     - practice deck / cards
 
 """
-
+import json
 import functools
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
@@ -30,6 +30,20 @@ def add_deck(name: str, description: str, user_id: int):
         (name, description, user_id)
     )
     db.commit()
+
+def deck_to_dict(deck: tuple) -> dict:
+    new_dict = {
+            'id': deck[0],
+            'name': deck[1],
+            'description': deck[2],
+            'user_id': deck[3]
+        }
+    return new_dict
+
+def get_deck(deck_id):
+    db = get_db()
+    deck = db.execute("SELECT * FROM deck WHERE id = ?", (deck_id,)).fetchone()
+    return deck_to_dict(deck)
 
 def get_decks(user_id):
     # Get all decks
@@ -67,5 +81,12 @@ def index():
         add_deck(name, description, TEST_USER)
 
     decks = get_decks(TEST_USER)
-    print(len(decks))
     return render_template('decks/index.html', decks=decks)
+
+@bp.route('/decks/editor', methods=('GET', 'POST'))
+def editor():
+    # Load passed deck and make to dict
+    deck_id = request.args.get('deck_id')
+    deck = get_deck(deck_id)
+
+    return render_template('decks/editor.html', deck=deck)

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}New deck{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="newdeck-editor">
+    <form method="post">
+        <input type="text" id="deckname" placeholder="Name" value="{{ deck.get('name') }}" required>
+        <textarea name="description" id="deckdescription" placeholder="Add a description...">{{ deck.get('description') }}</textarea>
+    </form>
+  </div>
+{% endblock %}

@@ -17,10 +17,12 @@
       </form>
     </div>
     {% for deck in decks: %}
-      <div class="deck">
-        <h4 class="deck-name">{{deck['name']}}</h4>
-        <p class="deck-description">{{deck['description']}}</p>
-      </div>
+      <a class="deck-link" href="{{ url_for('decks.editor', deck_id=deck.id )}}">
+        <div class="deck">
+          <h4 class="deck-name">{{ deck['name'] }}</h4>
+          <p class="deck-description">{{ deck['description'] }}</p>
+        </div>
+      </a>
     {% endfor %}
   </div>
 {% endblock %}
