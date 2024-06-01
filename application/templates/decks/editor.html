@@ -9,7 +9,7 @@
     <!-- Edit current information -->
     <form method="post" class="deck-info">
         <input type="hidden" name="id" value="{{deck.get('id')}}">
-        <input type="text" name="name" id="deck-name" placeholder="Name" value="{{ deck.get('name', '') }}" required>
+        <input type="text" name="name" id="deck-name" placeholder="Name" value="{{ deck.get('name', '') }}">
         <textarea name="description" id="deck-description" placeholder="Add a description...">{{ deck.get('description') }}</textarea>
         <div class="deck-actions">
           <button type="submit" name="action" value="delete" class="btn delete-btn">Delete</button>

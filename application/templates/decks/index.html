@@ -6,19 +6,15 @@
 
 {% block content %}
   <div id="deckviewer">
-    <div id="add-deck">
-      <form method="post">
-        <!-- <label for="name">Name</label> -->
-        <input name="name" id="name" placeholder="name" required>
-        <label for="description">Description</label>
-        <textarea name="description" id="description"> </textarea>
-        <input type="submit" value="Register">
-  
-      </form>
-    </div>
+    <!-- Add new deck -->
+    <a href="{{ url_for('decks.editor') }}">
+      <div class="deck-box" id="add-deck">
+        <div class="plus-symbol">+</div>
+      </div>
+    </a>
     {% for deck in decks: %}
       <a class="deck-link" href="{{ url_for('decks.editor', deck_id=deck.id )}}">
-        <div class="deck">
+        <div class="deck deck-box">
           <h4 class="deck-name">{{ deck['name'] }}</h4>
           <p class="deck-description">{{ deck['description'] }}</p>
         </div>

@@ -121,29 +121,13 @@ nav .navigation ul :hover::after {
 #deckviewer {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px;
 }
 
-#add-deck {
-    width: 24%;
-    aspect-ratio: 1 / 1;
-    margin: 0.5%;
-    padding: 20px 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    border: 1px solid var(--detailColor);
-    border-radius: 10px;
-    background-color: var(--backgroundColor);
-}
-
-#add-deck form {
-    display: flex;
-    flex-direction: column;
-}
-
-.deck {
-    width: 24%;
+.deck-box {
+    width: 200px;
     aspect-ratio: 1 / 1;
     margin: 0.5%;
     padding: 20px 10px;
@@ -155,6 +139,34 @@ nav .navigation ul :hover::after {
     border-radius: 10px;
     background-color: var(--backgroundColor);
     text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.deck-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.9);
+}
+
+#add-deck {
+    border: 3px solid var(--detailColor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#add-deck .plus-symbol {
+    margin-bottom: 20px;
+    font-size: 96px;
+    font-weight: 100;
+}
+
+#add-deck form {
+    display: flex;
+    flex-direction: column;
+}
+
+.deck {
+    
 }
 
 .deck-name {

@@ -30,6 +30,16 @@ def add_deck(name: str, description: str, user_id: int):
         (name, description, user_id)
     )
     db.commit()
+    deck_id = db.execute('SELECT last_insert_rowid()').fetchone()[0]
+    return deck_id
+
+def new_deck(user_id):
+    """ Create a new, empty deck with placeholder values """
+    placeholder_name = ""
+    placeholder_desc = ""
+    deck_id = add_deck(placeholder_name, placeholder_desc, user_id)
+    return deck_id
+
 
 def set_deck_name(new_name: str, deck_id: int):
     db = get_db()
@@ -127,6 +137,8 @@ def index():
 """
 @bp.route('/decks/editor', methods=('GET', 'POST'))
 def editor():
+    """ Arguments passed:
+    """
     # Handle update of deck
     if request.method == 'POST':
         action = request.form.get('action')
@@ -143,9 +155,15 @@ def editor():
             delete_deck(deck_id)
             return redirect(url_for('decks.index'))
 
-    # Load passed deck and make to dict
+    # Load deck if existed
     deck_id = request.args.get('deck_id')
-    deck = get_deck(deck_id)
-    cards = get_cards(deck_id)
+    if deck_id:
+        deck = get_deck(deck_id)
+        cards = get_cards(deck_id)
+    # No id means new deck
+    else:
+        deck_id = new_deck(TEST_USER)
+        deck = get_deck(deck_id)
+        cards = []
 
     return render_template('decks/editor.html', deck=deck, cards=cards)
