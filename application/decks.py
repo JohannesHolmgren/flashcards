@@ -31,6 +31,30 @@ def add_deck(name: str, description: str, user_id: int):
     )
     db.commit()
 
+def set_deck_name(new_name: str, deck_id: int):
+    db = get_db()
+    db.execute(
+        "UPDATE deck SET name = ? WHERE id = ?",
+        (new_name, deck_id)
+    )
+    db.commit()
+
+def set_deck_description(new_desc: str, deck_id: int):
+    db = get_db()
+    db.execute(
+        "UPDATE deck SET description = ? WHERE id = ?",
+        (new_desc, deck_id)
+    )
+    db.commit()
+
+def delete_deck(deck_id: int):
+    db = get_db()
+    db.execute(
+        "DELETE FROM deck where id = ?",
+        (deck_id,)
+    )
+    db.commit()
+
 def deck_to_dict(deck: tuple) -> dict:
     new_dict = {
             'id': deck[0],
@@ -40,35 +64,50 @@ def deck_to_dict(deck: tuple) -> dict:
         }
     return new_dict
 
+def card_to_dict(card: tuple) -> dict:
+    new_dict = {
+        'id': card[0],
+        'front': card[1],
+        'back': card[2],
+        'deck_id': card[3]
+    }
+    return new_dict
+
 def get_deck(deck_id):
     db = get_db()
     deck = db.execute("SELECT * FROM deck WHERE id = ?", (deck_id,)).fetchone()
     return deck_to_dict(deck)
 
 def get_decks(user_id):
-    # Get all decks
+    """ Get all decks that belong to a certain user """
+    # Get decks from database
     db = get_db()
     decks = db.execute(
         # "SELECT * FROM deck WHERE user_id = ?",
         "SELECT * FROM deck"
         # (user_id)
     ).fetchall()
-
-    print('number of decks', len(decks))
     # Convert to dictionary
     deck_dicts = []
     for deck in decks:
-        new_dict = {
-            'id': deck[0],
-            'name': deck[1],
-            'description': deck[2],
-            'user_id': deck[3]
-        }
-        deck_dicts.append(new_dict)
+        deck_dicts.append(deck_to_dict(deck))
     return deck_dicts
 
-""" Views """
+def get_cards(deck_id):
+    """ Get all cards that belong to a certain deck """
+    # Get cards from database
+    db = get_db()
+    cards = db.execute(
+        "SELECT * FROM card WHERE deck_id = ?", 
+        (deck_id,)
+    ).fetchall()
+    # Convert to dictionary
+    card_dicts = []
+    for card in cards:
+        card_dicts.append(card_to_dict(card))
+    return card_dicts
 
+""" ----- Views ----- """
 """
     The index view is where all the decks are shown.
 """
@@ -83,10 +122,29 @@ def index():
     decks = get_decks(TEST_USER)
     return render_template('decks/index.html', decks=decks)
 
+"""
+    decks/editor view is where a deck is edited and the cards are shown
+"""
 @bp.route('/decks/editor', methods=('GET', 'POST'))
 def editor():
+    # Handle update of deck
+    if request.method == 'POST':
+        action = request.form.get('action')
+        deck_id = request.form.get('id')
+        deck_name = request.form.get('name')
+        deck_description = request.form.get('description')
+        # Save deck
+        if action == 'save':
+            set_deck_name(deck_name, deck_id)
+            set_deck_description(deck_description, deck_id)
+        # Delete deck
+        if action == 'delete':
+            delete_deck(deck_id)
+            return redirect(url_for('decks.index'))
+
     # Load passed deck and make to dict
     deck_id = request.args.get('deck_id')
     deck = get_deck(deck_id)
+    cards = get_cards(deck_id)
 
-    return render_template('decks/editor.html', deck=deck)
+    return render_template('decks/editor.html', deck=deck, cards=cards)

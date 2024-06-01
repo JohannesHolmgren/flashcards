@@ -6,9 +6,33 @@
 
 {% block content %}
   <div class="newdeck-editor">
-    <form method="post">
-        <input type="text" id="deckname" placeholder="Name" value="{{ deck.get('name') }}" required>
-        <textarea name="description" id="deckdescription" placeholder="Add a description...">{{ deck.get('description') }}</textarea>
+    <!-- Edit current information -->
+    <form method="post" class="deck-info">
+        <input type="hidden" name="id" value="{{deck.get('id')}}">
+        <input type="text" name="name" id="deck-name" placeholder="Name" value="{{ deck.get('name', '') }}" required>
+        <textarea name="description" id="deck-description" placeholder="Add a description...">{{ deck.get('description') }}</textarea>
+        <div class="deck-actions">
+          <button type="submit" name="action" value="delete" class="btn delete-btn">Delete</button>
+          <button type="submit" name="action" value="save" class="btn">Save</button>
+        </div>
     </form>
+    <!-- Add new card -->
+
+    <!-- Display all current cards -->
+    <div class="cardview">
+      <h2>Cards</h2>
+      <ul class="cards">
+        {% for card in cards: %}
+        <li class="card">
+          <div class="front">
+            <p>{{card.front}}</p>
+          </div>
+          <div class="back">
+            <p><p>{{card.back}}</p></p>
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
   </div>
 {% endblock %}
