@@ -137,6 +137,7 @@ def editor():
         if action == 'save':
             set_deck_name(deck_name, deck_id)
             set_deck_description(deck_description, deck_id)
+            return redirect(url_for('decks.index'))
         # Delete deck
         if action == 'delete':
             delete_deck(deck_id)
