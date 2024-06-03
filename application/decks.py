@@ -103,6 +103,48 @@ def get_decks(user_id):
         deck_dicts.append(deck_to_dict(deck))
     return deck_dicts
 
+def add_card(front: str, back: str, deck_id: int) -> int:
+    """ Add a card to deck with deck_id.
+        Returns: card's id
+    """
+    db = get_db()
+    db.execute(
+        "INSERT INTO card (front, back, deck_id) VALUES (?, ?, ?)",
+        (front, back, deck_id)       
+    )
+    db.commit()
+    card_id = db.execute('SELECT last_insert_rowid()').fetchone()[0]
+    return card_id
+
+def new_card(deck_id: int) -> int:
+    """ Create a new, empty card with placeholder values """
+    placeholder_front = ""
+    placeholder_back = ""
+    card_id = add_card(placeholder_front, placeholder_back, deck_id)
+    return card_id
+
+def set_card_front(new_front: str, card_id: int):
+    db = get_db()
+    db.execute(
+        "UPDATE card SET front = ? WHERE id = ?",
+        (new_front, card_id)
+    )
+    db.commit()
+
+def set_card_back(new_back: str, card_id: int):
+    db = get_db()
+    db.execute(
+        "UPDATE card SET back = ? WHERE id = ?",
+        (new_back, card_id)
+    )
+    db.commit()
+
+def get_card(card_id: int) -> dict:
+    """ Get a single card from its id and return as dict """
+    db = get_db()
+    card = db.execute("SELECT * FROM card WHERE id = ?", (card_id,)).fetchone()
+    return card_to_dict(card)
+
 def get_cards(deck_id):
     """ Get all cards that belong to a certain deck """
     # Get cards from database
@@ -116,6 +158,14 @@ def get_cards(deck_id):
     for card in cards:
         card_dicts.append(card_to_dict(card))
     return card_dicts
+
+def delete_card(card_id: int):
+    db = get_db()
+    db.execute(
+        "DELETE FROM card where id = ?",
+        (card_id,)
+    )
+    db.commit()
 
 """ ----- Views ----- """
 """
@@ -138,6 +188,7 @@ def index():
 @bp.route('/decks/editor', methods=('GET', 'POST'))
 def editor():
     """ Arguments passed:
+        deck_id: id or None
     """
     # Handle update of deck
     if request.method == 'POST':
@@ -146,16 +197,16 @@ def editor():
         deck_name = request.form.get('name')
         deck_description = request.form.get('description')
         # Save deck
-        if action == 'save':
+        if action == 'save-deck':
             set_deck_name(deck_name, deck_id)
             set_deck_description(deck_description, deck_id)
             return redirect(url_for('decks.index'))
         # Delete deck
-        if action == 'delete':
+        if action == 'delete-deck':
             delete_deck(deck_id)
             return redirect(url_for('decks.index'))
 
-    # Load deck if existed
+    # Load deck if exists
     deck_id = request.args.get('deck_id')
     if deck_id:
         deck = get_deck(deck_id)
@@ -167,3 +218,36 @@ def editor():
         cards = []
 
     return render_template('decks/editor.html', deck=deck, cards=cards)
+
+@bp.route('/decks/editor/cardeditor', methods=('GET', 'POST'))
+def cardeditor():
+    """
+        Arguments passed:
+        card_id: id or None
+    """
+    if request.method == 'POST':
+        action = request.form.get('action')
+        card_id = request.form.get('id')
+        front = request.form.get('front')
+        back = request.form.get('back')
+        deck_id = request.form.get('deck_id')
+        if action == 'save-card':
+            set_card_front(front, card_id)
+            set_card_back(back, card_id)
+            return redirect(url_for('decks.editor', deck_id=deck_id))
+        if action == 'delete-card':
+            delete_card(card_id)
+            return redirect(url_for('decks.editor', deck_id=deck_id))
+
+    # Load card if exists else create new card
+    card_id = request.args.get('card_id')
+    deck_id = request.args.get('deck_id')
+    if not deck_id:
+        flash('NO DECK ID! WARNING')
+    if card_id:
+        card = get_card(card_id)
+    else:
+        card_id = new_card(deck_id)
+        card = get_card(card_id)
+    
+    return render_template('decks/cardeditor.html', card=card)

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Edit Card{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="card-editor">
+    <!-- Edit current information -->
+    <form method="post">
+        <input type="hidden" name="deck_id" value="{{card.get('deck_id')}}">
+        <input type="hidden" name="id" value="{{card.get('id')}}">
+        <h2>Question</h2>
+        <textarea name="front" id="card-front" placeholder="Add a frontside...">{{card.get('front')}}</textarea>
+        <h2>Answer</h2>
+        <textarea name="back" id="card-back" placeholder="Add a backside...">{{ card.get('back') }}</textarea>
+        <div class="deck-actions">
+          <button type="submit" name="action" value="delete-card" class="btn delete-btn">Delete</button>
+          <button type="submit" name="action" value="save-card" class="btn">Save</button>
+        </div>
+    </form>
+  </div>
+{% endblock %}

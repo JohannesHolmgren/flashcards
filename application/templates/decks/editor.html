@@ -12,26 +12,33 @@
         <input type="text" name="name" id="deck-name" placeholder="Name" value="{{ deck.get('name', '') }}">
         <textarea name="description" id="deck-description" placeholder="Add a description...">{{ deck.get('description') }}</textarea>
         <div class="deck-actions">
-          <button type="submit" name="action" value="delete" class="btn delete-btn">Delete</button>
-          <button type="submit" name="action" value="save" class="btn">Save</button>
+          <button type="submit" name="action" value="delete-deck" class="btn delete-btn">Delete</button>
+          <button type="submit" name="action" value="save-deck" class="btn">Save</button>
         </div>
     </form>
-    <!-- Add new card -->
 
-    <!-- Display all current cards -->
     <div class="cardview">
       <h2>Cards</h2>
       <ul class="cards">
+        <!-- Add new card -->
+        <a class="card-link" href="{{ url_for('decks.cardeditor', deck_id=deck.id) }}">
+          <div class="card add-card">
+            <div class="plus-symbol">+</div>
+          </div>
+        </a>
+        <!-- Show all cards -->
         {% for card in cards: %}
-        <li class="card">
-          <div class="front">
-            <p>{{card.front}}</p>
-          </div>
-          <div class="back">
-            <p><p>{{card.back}}</p></p>
-          </div>
-        </li>
-      {% endfor %}
+        <a class="card-link" href="{{ url_for('decks.cardeditor', deck_id=deck.id, card_id=card.id) }}">
+          <li class="card">
+            <div class="front">
+              <p>{{card.front}}</p>
+            </div>
+            <div class="back">
+              <p><p>{{card.back}}</p></p>
+            </div>
+          </li>
+        </a>
+        {% endfor %}
       </ul>
     </div>
   </div>
