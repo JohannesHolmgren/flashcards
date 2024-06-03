@@ -57,6 +57,10 @@ def set_deck_description(new_desc: str, deck_id: int):
     )
     db.commit()
 
+def update_deck(new_name: str, new_desc: str, deck_id: int):
+    set_deck_name(new_name, deck_id)
+    set_deck_description(new_desc, deck_id)
+
 def delete_deck(deck_id: int):
     db = get_db()
     db.execute(
@@ -167,10 +171,8 @@ def delete_card(card_id: int):
     )
     db.commit()
 
-""" ----- Views ----- """
-"""
-    The index view is where all the decks are shown.
-"""
+""" ---------- Index ---------- """
+
 TEST_USER = 0
 @bp.route('/decks', methods=('GET', 'POST'))
 def index():
@@ -182,9 +184,8 @@ def index():
     decks = get_decks(TEST_USER)
     return render_template('decks/index.html', decks=decks)
 
-"""
-    decks/editor view is where a deck is edited and the cards are shown
-"""
+""" ---------- Deck editor ---------- """
+
 @bp.route('/decks/deck_delete/<int:deck_id>', methods=('GET', 'POST'))
 def deck_delete(deck_id: int):
     delete_deck(deck_id)
@@ -194,12 +195,11 @@ def deck_delete(deck_id: int):
 def deck_save(deck_id: int):
     name = request.form.get('name')
     description = request.form.get('description')
-    set_deck_name(name, deck_id)
-    set_deck_description(description, deck_id)
+    update_deck(name, description, deck_id)
     return redirect(url_for('decks.index'))
 
-@bp.route('/decks/editor', methods=('GET', 'POST')) 
-def editor():
+@bp.route('/decks/deck_editor', methods=('GET', 'POST')) 
+def deck_editor():
     """ Arguments passed:
         deck_id: id or None
     """
@@ -216,17 +216,15 @@ def editor():
 
     print(deck)
 
-    return render_template('decks/editor.html', deck=deck, cards=cards)
+    return render_template('decks/deck_editor.html', deck=deck, cards=cards)
 
+""" ---------- Card editor ---------- """
 
-"""
-    Card editor
-"""
 @bp.route('/decks/card_delete/<int:card_id>', methods=('GET', 'POST'))
 def card_delete(card_id: int):
     deck_id = get_card(card_id).get('deck_id')
     delete_card(card_id)
-    return redirect(url_for('decks.editor', deck_id=deck_id))
+    return redirect(url_for('decks.deck_editor', deck_id=deck_id))
 
 @bp.route('/decks/card_save/<int:card_id>', methods=('GET', 'POST'))
 def card_save(card_id: int):
@@ -235,10 +233,10 @@ def card_save(card_id: int):
     deck_id = request.form.get('deck_id')
     set_card_front(front, card_id)
     set_card_back(back, card_id)
-    return redirect(url_for('decks.editor', deck_id=deck_id))
+    return redirect(url_for('decks.deck_editor', deck_id=deck_id))
 
-@bp.route('/decks/editor/cardeditor', methods=('GET', 'POST'))
-def cardeditor():
+@bp.route('/decks/card_editor', methods=('GET', 'POST'))
+def card_editor():
     """
         Arguments passed:
         card_id: id or None
@@ -254,4 +252,4 @@ def cardeditor():
         card_id = new_card(deck_id)
         card = get_card(card_id)
     
-    return render_template('decks/cardeditor.html', card=card)
+    return render_template('decks/card_editor.html', card=card)

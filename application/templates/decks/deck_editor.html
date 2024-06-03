@@ -21,14 +21,14 @@
       <h2>Cards</h2>
       <ul class="cards">
         <!-- Add new card -->
-        <a class="card-link" href="{{ url_for('decks.cardeditor', deck_id=deck.id) }}">
+        <a class="card-link" href="{{ url_for('decks.card_editor', deck_id=deck.id) }}">
           <div class="card add-card">
             <div class="plus-symbol">+</div>
           </div>
         </a>
         <!-- Show all cards -->
         {% for card in cards: %}
-        <a class="card-link" href="{{ url_for('decks.cardeditor', deck_id=deck.id, card_id=card.id) }}">
+        <a class="card-link" href="{{ url_for('decks.card_editor', deck_id=deck.id, card_id=card.id) }}">
           <li class="card">
             <div class="front">
               <p>{{card.front}}</p>

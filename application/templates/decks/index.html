@@ -7,13 +7,13 @@
 {% block content %}
   <div id="deckviewer">
     <!-- Add new deck -->
-    <a href="{{ url_for('decks.editor') }}">
+    <a href="{{ url_for('decks.deck_editor') }}">
       <div class="deck-box" id="add-deck">
         <div class="plus-symbol">+</div>
       </div>
     </a>
     {% for deck in decks: %}
-      <a class="deck-link" href="{{ url_for('decks.editor', deck_id=deck.id )}}">
+      <a class="deck-link" href="{{ url_for('decks.deck_editor', deck_id=deck.id )}}">
         <div class="deck deck-box">
           <h4 class="deck-name">{{ deck['name'] }}</h4>
           <p class="deck-description">{{ deck['description'] }}</p>
