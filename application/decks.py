@@ -185,27 +185,24 @@ def index():
 """
     decks/editor view is where a deck is edited and the cards are shown
 """
-@bp.route('/decks/editor', methods=('GET', 'POST'))
+@bp.route('/decks/deck_delete/<int:deck_id>', methods=('GET', 'POST'))
+def deck_delete(deck_id: int):
+    delete_deck(deck_id)
+    return redirect(url_for('decks.index'))
+
+@bp.route('/decks/deck_save/<int:deck_id>', methods=('GET', 'POST'))
+def deck_save(deck_id: int):
+    name = request.form.get('name')
+    description = request.form.get('description')
+    set_deck_name(name, deck_id)
+    set_deck_description(description, deck_id)
+    return redirect(url_for('decks.index'))
+
+@bp.route('/decks/editor', methods=('GET', 'POST')) 
 def editor():
     """ Arguments passed:
         deck_id: id or None
     """
-    # Handle update of deck
-    if request.method == 'POST':
-        action = request.form.get('action')
-        deck_id = request.form.get('id')
-        deck_name = request.form.get('name')
-        deck_description = request.form.get('description')
-        # Save deck
-        if action == 'save-deck':
-            set_deck_name(deck_name, deck_id)
-            set_deck_description(deck_description, deck_id)
-            return redirect(url_for('decks.index'))
-        # Delete deck
-        if action == 'delete-deck':
-            delete_deck(deck_id)
-            return redirect(url_for('decks.index'))
-
     # Load deck if exists
     deck_id = request.args.get('deck_id')
     if deck_id:
@@ -215,9 +212,30 @@ def editor():
     else:
         deck_id = new_deck(TEST_USER)
         deck = get_deck(deck_id)
-        cards = []
+        cards = get_cards(deck_id)  # Will always be empty
+
+    print(deck)
 
     return render_template('decks/editor.html', deck=deck, cards=cards)
+
+
+"""
+    Card editor
+"""
+@bp.route('/decks/card_delete/<int:card_id>', methods=('GET', 'POST'))
+def card_delete(card_id: int):
+    deck_id = get_card(card_id).get('deck_id')
+    delete_card(card_id)
+    return redirect(url_for('decks.editor', deck_id=deck_id))
+
+@bp.route('/decks/card_save/<int:card_id>', methods=('GET', 'POST'))
+def card_save(card_id: int):
+    front = request.form.get('front')
+    back = request.form.get('back')
+    deck_id = request.form.get('deck_id')
+    set_card_front(front, card_id)
+    set_card_back(back, card_id)
+    return redirect(url_for('decks.editor', deck_id=deck_id))
 
 @bp.route('/decks/editor/cardeditor', methods=('GET', 'POST'))
 def cardeditor():
@@ -225,20 +243,6 @@ def cardeditor():
         Arguments passed:
         card_id: id or None
     """
-    if request.method == 'POST':
-        action = request.form.get('action')
-        card_id = request.form.get('id')
-        front = request.form.get('front')
-        back = request.form.get('back')
-        deck_id = request.form.get('deck_id')
-        if action == 'save-card':
-            set_card_front(front, card_id)
-            set_card_back(back, card_id)
-            return redirect(url_for('decks.editor', deck_id=deck_id))
-        if action == 'delete-card':
-            delete_card(card_id)
-            return redirect(url_for('decks.editor', deck_id=deck_id))
-
     # Load card if exists else create new card
     card_id = request.args.get('card_id')
     deck_id = request.args.get('deck_id')
