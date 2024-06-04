@@ -12,8 +12,8 @@
         <input type="text" name="name" id="deck-name" placeholder="Name" value="{{ deck.get('name', '') }}">
         <textarea name="description" id="deck-description" placeholder="Add a description...">{{ deck.get('description') }}</textarea>
         <div class="deck-actions">
-          <a href="{{ url_for('decks.deck_delete', deck_id=deck.id) }}" class="btn delete-btn">Delete</a>
-          <button type="submit" name="action" value="save-deck" class="btn">Save</button>
+          <a href="{{ url_for('decks.deck_delete', deck_id=deck.id) }}" class="button delete-btn">Delete</a>
+          <button type="submit" name="action" value="save-deck" class="btn button">Save</button>
         </div>
     </form>
 
@@ -28,18 +28,33 @@
         </a>
         <!-- Show all cards -->
         {% for card in cards: %}
-        <a class="card-link" href="{{ url_for('decks.card_editor', deck_id=deck.id, card_id=card.id) }}">
           <li class="card">
-            <div class="front">
-              <p>{{card.front}}</p>
+            <div class="card-inner">
+              <div class="card-front">
+                <p>{{card.front}}</p>
+              </div>
+              <div class="card-back">
+                <p><p>{{card.back}}</p></p>
+              </div>
             </div>
-            <div class="back">
-              <p><p>{{card.back}}</p></p>
-            </div>
+            <a class="edit-card" href="{{ url_for('decks.card_editor', card_id=card.id, deck_id=deck.id) }}">
+              <i class="fas fa-pencil-alt"></i>
+            </a>
           </li>
-        </a>
         {% endfor %}
       </ul>
     </div>
   </div>
+  <!-- To make the card rotate on press -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.card');
+
+      cards.forEach(function(card) {
+          card.addEventListener('click', function() {
+              this.classList.toggle('is-flipped'); // Use 'this' to refer to the clicked card
+          });
+      });
+    });
+  </script>
 {% endblock %}

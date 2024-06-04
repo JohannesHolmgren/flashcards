@@ -15,8 +15,8 @@
         <h2>Answer</h2>
         <textarea name="back" id="card-back" placeholder="Add a backside...">{{ card.get('back') }}</textarea>
         <div class="deck-actions">
-          <a href="{{ url_for('decks.card_delete', card_id=card.id) }}" class="btn delete-btn">Delete</a>
-          <button type="submit" name="action" value="save-card" class="btn">Save</button>
+          <a href="{{ url_for('decks.card_delete', card_id=card.id) }}" class="button delete-btn">Delete</a>
+          <button type="submit" name="action" value="save-card" class="button">Save</button>
         </div>
     </form>
   </div>
