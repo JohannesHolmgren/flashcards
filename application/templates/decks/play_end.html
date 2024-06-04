@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Play{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="card-editor">
+    <h2>End of deck</h2>
+    <div class="deck-actions">
+      <a href="{{ url_for('decks.init_play_all', deck_id=deck.id) }}" class="button">Play again</a>
+      <a href="{{ url_for('decks.index') }}" class="button">Return to Decks</a>
+    </div>
+  </div>
+{% endblock %}

@@ -28,7 +28,7 @@ li {
 	background: none;
 	color: inherit;
 	padding: 10px 20px;
-    margin: 0px 10px;
+    margin: 10px 10px;
 	border: 1px solid var(--detailColor);
     border-radius: 10px;
 	font: inherit;
@@ -313,6 +313,12 @@ nav .navigation ul :hover::after {
     border: 1px solid var(--detailColor);
     border-radius: 10px;
     overflow-y: hidden;
+}
+
+.card-title {
+    font-size: small;
+    font-weight: 200;
+    margin-bottom: 10px;
 }
 
 .card-back {

@@ -9,6 +9,7 @@
     - practice deck / cards
 
 """
+import random
 import json
 import functools
 from flask import (
@@ -253,3 +254,39 @@ def card_editor():
         card = get_card(card_id)
     
     return render_template('decks/card_editor.html', card=card)
+
+
+""" ---------- Play a deck of cards ----------"""
+card_ids = []
+
+@bp.route('/decks/init_play_all<int:deck_id>', methods=('GET', 'POST'))
+def init_play_all(deck_id):
+    global card_ids
+    card_ids = [card.get('id') for card in get_cards(deck_id)]
+    random.shuffle(card_ids)
+    print('GOT HERE')
+    print(card_ids)
+    return redirect(url_for('decks.play_new_card', deck_id=deck_id))
+
+@bp.route('/decks/play_new_card<int:deck_id>')
+def play_new_card(deck_id):
+    if len(card_ids) == 0:
+        return redirect(url_for('decks.play_end', deck_id=deck_id))
+    
+    card_id = card_ids.pop()
+    return redirect(url_for('decks.play_card_front', card_id=card_id))
+
+@bp.route('/decks/play_card_front<int:card_id>', methods=('GET', 'POST'))
+def play_card_front(card_id):
+    card = get_card(card_id)
+    return render_template('decks/play_card_front.html', card=card)
+
+@bp.route('/decks/play_card_back<int:card_id>', methods=('GET', 'POST'))
+def play_card_back(card_id):
+    card = get_card(card_id)
+    return render_template('decks/play_card_back.html', card=card)
+
+@bp.route('/decks/play_end<int:deck_id>', methods=('GET', 'POST'))
+def play_end(deck_id):
+    deck = get_deck(deck_id)
+    return render_template('decks/play_end.html', deck=deck)

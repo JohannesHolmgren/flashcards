@@ -17,7 +17,7 @@
       <a class="edit-card" href="{{ url_for('decks.deck_editor', deck_id=deck.id) }}">
         <i class="fas fa-pencil-alt"></i>
       </a>
-      <a class="deck-link" href="{{ url_for('decks.deck_editor', deck_id=deck.id) }}">
+      <a class="deck-link" href="{{ url_for('decks.init_play_all', deck_id=deck.id) }}">
         <h4 class="deck-name">{{ deck['name'] }}</h4>
         <p class="deck-description">{{ deck['description'] }}</p>
       </a>
