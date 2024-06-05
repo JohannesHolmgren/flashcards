@@ -14,13 +14,17 @@
     </a>
     {% for deck in decks: %}
     <div class="deck-box">
-      <a class="edit-card" href="{{ url_for('decks.deck_editor', deck_id=deck.id) }}">
-        <i class="fas fa-pencil-alt"></i>
-      </a>
       <a class="deck-link" href="{{ url_for('decks.init_play_all', deck_id=deck.id) }}">
         <h4 class="deck-name">{{ deck['name'] }}</h4>
         <p class="deck-description">{{ deck['description'] }}</p>
       </a>
+      <a class="edit-card" href="{{ url_for('decks.deck_editor', deck_id=deck.id) }}">
+        <i class="fas fa-pencil-alt"></i>
+      </a>
+      <div class="play-deck-buttons">
+        <a href="{{ url_for('decks.init_play_all', deck_id=deck.id) }}" class="button">Practice</a>
+        <a href="{{ url_for('decks.init_play_all', deck_id=deck.id) }}" class="button">Play All</a>
+      </div>
     </div>
     {% endfor %}
   </div>
