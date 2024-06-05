@@ -1,0 +1,138 @@
+Crisis, Recession and Monetary Policy
+See [[EC1101E Macro 4]]
+# Financial Crisis
+
+## Financial Innovations
+New types of securities
+Borrow short terms
+Insurance against falling asset values
+Non-bank fin. institution (NBFI)
+
+### Securization
+Ex. A bank can give mortgage loans and bundle them together. The one who owns the bundle (MBS) gets the interest of the loan
+
+### Slicing and dicing
+Slice of MBS of high risk and combine with others to make low risk CDOs
+
+### Borrow short term
+Sells CDO but agrees to buy it back shortly later at a higher price. Basically a short-term loan with the diff is interest
+
+### Collateral for repos
+Security acts as collateral: if other part doesn't follow agreement
+Lenders prefer liquid and safe assets
+
+### Credit default Swap (CDS)
+Kind of insurance
+
+### Shadow banking
+NBFIs that take on short term liabilities to purchase long term assets
+- Hedge funds mutual funds, etc.
+Highly leveraged: > 30
+
+## Crisis and Aftermath
+- Prices of MBS's, CDOs fell drastically.
+- Lenders didn't want to enter into repos or accept securities as collateral since they feared borrowers are insolvent
+- Banks and NBFI's tried to deleverage but bcs everyone did the price falls drastically, leading even closer to insolvency
+# The money market
+- Money, financ. assets and interest rate into Keynesian
+- 2 fin. assets:
+	- Bonds - risky but interest
+	- Money - safe but no interest
+- Assume inflation rate is fixed
+	- Nominal and real interest rate move together
+
+### Money demand
+amount of wealth households choose to hold as *money*
+holds more money If
+1. interest rate falls - opp. cost of holding money falls (Asset demand for money)
+2. Price level rises - needs more money to do transactions
+3. Output rises - more stuff to be bought and sold
+Plotted on graph with r on y-axis and money on x-axis
+
+### Money supply
+Assume CB complete control and can choose
+- curve is a vertical supply curve
+- Shifts when CB wants to shift it
+
+### How does money market clear
+Buy money when sell bonds and sell money when buy bond - mirrored markets
+**As bonds price goes up, interest goes down**
+
+If r above equilibrium, thus excess supply of money and excess demand for bonds, leading to price of bonds goes up and r down. Vice versa
+# Interaction with goods market
+**If r rises, Y* falls**
+**if Y rises money r rises**
+### The return of crowding out
+Crowding out now present in Keynesian
+reduces the size of the expenditure multiplier
+
+# Monetary Policy
+CB actions and communications to manage money supply to influence economic activity
+- To target the interest rate
+Expansionary - increase Y*
+Contractionary - decrease Y*
+
+### Countercyclical MP
+if Y* < Yfe use exp. and opposite
+MP faster to enact and easier to reverse, thus first choice over fiscal policy
+
+### MP affects FP
+CB wants to neutralize FP
+
+### In practise
+Not a single interest rate in economy
+CB targets one short-term interest rate
+- Overnight - FFR
+- Benchmark for other interest rates
+- Things tend to move with change in FFR
+
+# Unconventional Monetary Policy
+How CB conducted MP during recession when stuff didn't work
+Now almost standard
+
+Hard for CB to have r below 0%
+Bonds are not useful at all
+Conven. MP stops at r=0% 
+
+### Quantiative easing (QE) = large scalle asset purchases
+CB buys lots of financial assets paying with newly created reserves
+- Open market purchases on steroids
+- Buys a lot lot of MBS
+To boost asset prices and reduce long-term interest rates
+Reduces pressure on fin. inst. to delverage
+Does it induce consumption?
+
+However, didn't really work because banks wanted to hold excess reserves.
+=> Did not lead to hyperinflation
+
+### Forward guidance
+communicating future policy, e.g. keep target r at 0.25% for the extended future
+meant to influence business and households expectations of the future interest rate
+Was kept for 7 years so did keep their word
+- Impact? got out of the recession but haven't been able to get out of the slump
+
+### Fiscal policy is needed
+Deep prolonged slumps not battled with only MP
+but FP was more focused on long run so didn't work in the recession
+
+# Monetary policy and inflation
+2022 is the year of inflation!
+Due to increased price of energy, wars and sanctions against Russia
+
+### Theory of inflation: intuitive version
+When nominal AE rises relative to real potneital
+- in short run, economy can produce abovec potential
+- Long run prices and wages rise until real AE falls back to equal real potential
+
+### Inflation triggers: demand and supply shocks
+- Positive demand shocks: increases in Expenditure
+- Negative demand shocks: reduction in potential output. Can leads to stagflation: high inflation and high unemployment
+
+### Sustained high inflation requires
+- Hesistance from CB to tighten MP
+- People expect high inflation
+
+## Lessons from Volcker Disinflation
+- Beating high finlation involves doing contractionary monetary policy until the job is done
+- CB's credibility is important for influencing inflation expectations
+- Pre-emption: best to keep inflation low and stable, rather than to let it ramp up

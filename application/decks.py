@@ -19,6 +19,7 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from application.db import get_db
+from application.gpt import generate_deck
 
 """ Create blueprint for these views """
 bp = Blueprint('decks', __name__)
@@ -64,6 +65,10 @@ def update_deck(new_name: str, new_desc: str, deck_id: int):
 
 def delete_deck(deck_id: int):
     db = get_db()
+    db.execute(
+        "DELETE FROM card where deck_id = ?",
+        (deck_id,)
+    )
     db.execute(
         "DELETE FROM deck where id = ?",
         (deck_id,)
@@ -256,7 +261,7 @@ def card_editor():
     return render_template('decks/card_editor.html', card=card)
 
 
-""" ---------- Play a deck of cards ----------"""
+""" ---------- Play a deck of cards ---------- """
 card_ids = []
 
 @bp.route('/decks/init_play_all<int:deck_id>', methods=('GET', 'POST'))
@@ -290,3 +295,17 @@ def play_card_back(card_id):
 def play_end(deck_id):
     deck = get_deck(deck_id)
     return render_template('decks/play_end.html', deck=deck)
+
+
+""" ---------- Generate decks of cards ---------- """
+@bp.route('/decks/deck_from_text/', methods=('GET', 'POST'))
+def deck_from_text():
+    file = request.files['file']
+    file_content = file.read()
+    # text = 'In a world filles with food you can only eat fruits. Stones are very hard and you should never throw them at other people, even if you really feel like it'
+    text = file_content.decode('utf-8')
+    deck = generate_deck(text)
+    deck_id = add_deck(name=deck.get('name'), description=deck.get('description'), user_id=TEST_USER)
+    for question, answer in zip(deck.get('questions'), deck.get('answers')):
+        add_card(question, answer, deck_id)
+    return redirect(url_for('decks.index'))

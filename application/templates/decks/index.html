@@ -12,6 +12,12 @@
         <div class="plus-symbol">+</div>
       </div>
     </a>
+    <div class="deck-box">
+      <form action="{{ url_for('decks.deck_from_text') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+      </form>
+    </div>
     {% for deck in decks: %}
     <div class="deck-box">
       <a class="deck-link" href="{{ url_for('decks.init_play_all', deck_id=deck.id) }}">
