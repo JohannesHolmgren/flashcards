@@ -305,3 +305,18 @@ def deck_from_text():
     for question, answer in zip(deck.get('questions'), deck.get('answers')):
         add_card(question, answer, deck_id)
     return redirect(url_for('decks.index'))
+
+@bp.route('/decks/cards_from_desc<int:deck_id>', methods=('GET', 'POST'))
+def cards_from_desc(deck_id):
+    # Save deck
+    name = request.form.get('name')
+    description = request.form.get('description')
+    update_deck(name, description, deck_id)
+    
+    # Generate cards
+    deck = generate_deck(description)
+    for question, answer in zip(deck.get('questions'), deck.get('answers')):
+        add_card(question, answer, deck_id)
+    
+    deck = get_deck(deck_id)
+    return redirect(url_for('decks.deck_editor', deck_id=deck.get('id')))

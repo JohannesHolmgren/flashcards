@@ -13,6 +13,7 @@
         <textarea name="description" id="deck-description" placeholder="Add a description...">{{ deck.get('description') }}</textarea>
         <div class="deck-actions">
           <a href="{{ url_for('decks.deck_delete', deck_id=deck.id) }}" class="button delete-btn">Delete</a>
+          <a href="#" class="button" onclick="submitGenerateForm()">Generate</a>
           <button type="submit" name="action" value="save-deck" class="btn button">Save</button>
         </div>
     </form>
@@ -58,5 +59,11 @@
           });
       });
     });
+
+    function submitGenerateForm() {
+      var form = document.querySelector('.deck-info');
+      form.action = "{{ url_for('decks.cards_from_desc', deck_id=deck.id) }}";
+      form.submit();
+    }
   </script>
 {% endblock %}
