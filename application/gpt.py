@@ -54,8 +54,9 @@ def generate_deck(text: str, focus_areas=[]):
     messages.append(msg_create_flashcards)
     messages.append(msg_focus_on)
 
-    res = json.loads(ask(text, messages=messages, as_json=True))
-    return res
+    res = ask(text, messages=messages, as_json=True)
+    print(res)
+    return json.loads(res)
 
 
 if __name__ == '__main__':

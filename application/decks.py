@@ -220,8 +220,6 @@ def deck_editor():
         deck = get_deck(deck_id)
         cards = get_cards(deck_id)  # Will always be empty
 
-    print(deck)
-
     return render_template('decks/deck_editor.html', deck=deck, cards=cards)
 
 """ ---------- Card editor ---------- """
@@ -269,8 +267,6 @@ def init_play_all(deck_id):
     global card_ids
     card_ids = [card.get('id') for card in get_cards(deck_id)]
     random.shuffle(card_ids)
-    print('GOT HERE')
-    print(card_ids)
     return redirect(url_for('decks.play_new_card', deck_id=deck_id))
 
 @bp.route('/decks/play_new_card<int:deck_id>')
