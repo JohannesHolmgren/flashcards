@@ -28,10 +28,13 @@ def ask(input_prompt: str, messages:list =[], model: str='gpt-3.5-turbo', as_jso
     )
     return completion.choices[0].message.content
 
-def generate_deck(text: str, focus_areas=[]):
+def gpt_generate_deck(text:str, n_cards: int=None, focus_areas:list=[]) -> str:
     """ Generate a deck of flashcards (questions and answers) 
         from a text. 
-        text (str): the text to generate flashcards from
+        text:        The text to generate flashcards from
+        n_cards:     How many cards to generate (circa) or None to
+                     let the model decide. Note that a max roof of 999 cards is set
+        focus_areas: A list of strings of specifics, e.g. dates, names etc.
 
         Return: A python dict on the form: 
                 {
@@ -41,6 +44,8 @@ def generate_deck(text: str, focus_areas=[]):
                     'backs': [back1, back2...]
                 }
     """
+    N_MAX_CARDS = 999
+
     msg_create_flashcards = '''
         You are an assistant to create a deck of flashcards from texts. Return a JSON 
         object with a key 'name' with the name of the deck, 
@@ -49,17 +54,26 @@ def generate_deck(text: str, focus_areas=[]):
         and a key 'answers' with a list of the answers to the question. 
         The two lists must be the same length
     '''
-    msg_focus_on = 'focus on ' + ','.join(focus_areas)
     messages = []
     messages.append(msg_create_flashcards)
-    messages.append(msg_focus_on)
+
+    is_iter_focus_area = isinstance(focus_areas, list)
+    if is_iter_focus_area and all([isinstance(area, str) for area in focus_areas]):
+        if not len(focus_areas) == 0:
+            msg_focus_on = 'focus on ' + ','.join(focus_areas)
+            messages.append(msg_focus_on)
+
+    if n_cards and isinstance(n_cards, int):
+        # Cap number of cards if too many
+        n_cards = min(n_cards, N_MAX_CARDS)
+        msg_amount_cards = f"Generate {n_cards} cards"
+        messages.append(msg_amount_cards)
 
     res = ask(text, messages=messages, as_json=True)
-    print(res)
     return json.loads(res)
 
 
 if __name__ == '__main__':
-    print(generate_deck(
+    print(gpt_generate_deck(
         "In a world filles with food you can only eat fruits. Stones are very hard and you should never throw them at other people, even if you really feel like it", focus_areas=['fruits'])
         )

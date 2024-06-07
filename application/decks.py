@@ -19,7 +19,7 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from application.db import get_db
-from application.gpt import generate_deck
+from application.gpt import gpt_generate_deck
 
 """ Create blueprint for these views """
 bp = Blueprint('decks', __name__)
@@ -300,7 +300,7 @@ def deck_from_text():
     file_content = file.read()
     # text = 'In a world filles with food you can only eat fruits. Stones are very hard and you should never throw them at other people, even if you really feel like it'
     text = file_content.decode('utf-8')
-    deck = generate_deck(text)
+    deck = gpt_generate_deck(text)
     deck_id = add_deck(name=deck.get('name'), description=deck.get('description'), user_id=TEST_USER)
     for question, answer in zip(deck.get('questions'), deck.get('answers')):
         add_card(question, answer, deck_id)
@@ -314,9 +314,35 @@ def cards_from_desc(deck_id):
     update_deck(name, description, deck_id)
     
     # Generate cards
-    deck = generate_deck(description)
-    for question, answer in zip(deck.get('questions'), deck.get('answers')):
+    raw_deck = gpt_generate_deck(description)
+    for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
         add_card(question, answer, deck_id)
     
     deck = get_deck(deck_id)
     return redirect(url_for('decks.deck_editor', deck_id=deck.get('id')))
+
+@bp.route('/decks/generate_deck')
+def generate_deck():
+    return render_template('decks/generate_deck.html')
+
+@bp.route('/decks/generate_deck_begin', methods=('GET', 'POST'))
+def generate_deck_begin():
+    quantities = {
+        'few': 10,
+        'medium': 25,
+        'many': 50
+    }
+
+    prompt = request.form.get('prompt')
+    focus_areas = request.form.getlist('focus_areas')
+    quantity = request.form.get('quantity')
+    n_cards = quantities[quantity]
+
+    raw_deck = gpt_generate_deck(prompt, n_cards, focus_areas)
+    name = raw_deck.get('name')
+    desc = raw_deck.get('description')
+    deck_id = add_deck(name, desc, TEST_USER)
+    for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
+        add_card(question, answer, deck_id)
+    
+    return redirect(url_for('decks.deck_editor', deck_id=deck_id))
