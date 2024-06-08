@@ -1,0 +1,88 @@
+.deck-box {
+    position: relative;
+    width: 200px;
+    aspect-ratio: 1 / 1.4;
+    margin: 0.5%;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border: 1px solid var(--detailColor);
+    border-radius: 10px;
+    background-color: var(--backgroundColor);
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.deck-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.9);
+}
+
+#add-deck {
+    border: 3px solid var(--detailColor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#add-deck form {
+    display: flex;
+    flex-direction: column;
+}
+
+#add-deck .play-deck-buttons {
+    width: 80%;   
+}
+
+.plus-symbol {
+    margin-bottom: 20px;
+    font-size: 96px;
+    font-weight: 100;
+}
+
+.play-deck-buttons {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+}
+
+.deck-box-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    transition: transform 1s;
+}
+
+.deck-box:hover .deck-box-inner {
+    filter: blur(10px);
+}
+
+.deck-box:hover .play-deck-buttons {
+    display: flex;
+}
+
+.deck-box .edit-button {
+    display: none;
+}
+
+.deck-box:hover .edit-button {
+    display: flex;
+}
+
+.deck-name {
+    font-size: larger;
+    font-weight: 400;
+}
+
+.deck-description {
+    font-size: smaller;
+}

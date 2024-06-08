@@ -1,0 +1,72 @@
+.card {
+    position: relative;
+    width: 150px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid var(--detailColor); */
+    /* border-radius: 10px; */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid var(--detailColor);
+    border-radius: 10px; */
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.add-card {
+    border: 1px solid var(--detailColor);
+    border-radius: 10px;
+}
+
+.card:hover .card-inner {
+    /* transform: translateY(-5px); */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.9);
+}
+
+.is-flipped .card-inner{
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    -webkit-backface-visibility: hidden; /* For safari */
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    border: 1px solid var(--detailColor);
+    border-radius: 10px;
+}
+
+.card-text {
+    font-size: smaller;
+    overflow: hidden;
+}
+
+
+.card-title {
+    font-size: small;
+    font-weight: 200;
+    margin-bottom: 8px;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
