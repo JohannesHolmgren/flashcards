@@ -29,9 +29,24 @@
     <header>
       {% block header %}{% endblock %}
     </header>
-    {% for message in get_flashed_messages() %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
     {% block content %}{% endblock %}
   </section>
+  <ul id="flash-messages">
+    {% for message in get_flashed_messages() %}
+      <li class="flash">{{ message }}
+        <a class="close-button"><i class="fa fa-times" aria-hidden="true"></i></a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const closeButtons = document.querySelectorAll('.close-button');
+      closeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+          this.parentNode.style.display = 'none';
+        });
+      });
+    });
+  </script>
 </body>

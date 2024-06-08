@@ -195,6 +195,7 @@ def index():
 @bp.route('/decks/deck_delete/<int:deck_id>', methods=('GET', 'POST'))
 def deck_delete(deck_id: int):
     delete_deck(deck_id)
+    flash('Deck deleted succesfully')
     return redirect(url_for('decks.index'))
 
 @bp.route('/decks/deck_save/<int:deck_id>', methods=('GET', 'POST'))
