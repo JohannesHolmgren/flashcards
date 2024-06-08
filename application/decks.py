@@ -203,6 +203,7 @@ def deck_save(deck_id: int):
     name = request.form.get('name')
     description = request.form.get('description')
     update_deck(name, description, deck_id)
+    flash('Deck saved succesfully')
     return redirect(url_for('decks.index'))
 
 @bp.route('/decks/deck_editor', methods=('GET', 'POST')) 
@@ -299,11 +300,10 @@ def play_end(deck_id):
 def deck_from_text():
     file = request.files['file']
     file_content = file.read()
-    # text = 'In a world filles with food you can only eat fruits. Stones are very hard and you should never throw them at other people, even if you really feel like it'
     text = file_content.decode('utf-8')
     raw_deck = gpt_generate_deck(text)
     if not raw_deck:
-        flash('There was an error trying to generate your deck. Please try again')
+        flash('There was an error trying to generate your deck.')
         return redirect(url_for('decks.index'))
     deck_id = add_deck(name=raw_deck.get('name'), description=raw_deck.get('description'), user_id=TEST_USER)
     for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
@@ -316,11 +316,10 @@ def cards_from_desc(deck_id):
     name = request.form.get('name')
     description = request.form.get('description')
     update_deck(name, description, deck_id)
-    
     # Generate cards
     raw_deck = gpt_generate_deck(description)
     if not raw_deck:
-        flash('There was an error trying to generate your cards. Please try again')
+        flash('There was an error trying to generate your cards.')
         return redirect(url_for('decks.deck_editor', deck_id=deck_id))
     for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
         add_card(question, answer, deck_id)
@@ -339,20 +338,18 @@ def generate_deck_begin():
         'medium': 25,
         'many': 50
     }
-
     prompt = request.form.get('prompt')
     focus_areas = request.form.getlist('focus_areas')
     quantity = request.form.get('quantity')
     n_cards = quantities[quantity]
-
     raw_deck = gpt_generate_deck(prompt, n_cards, focus_areas)
     if not raw_deck:
-        flash('There was an error trying to generate your deck. Please try again')
+        flash('There was an error trying to generate your deck.')
         return redirect(url_for('decks.index'))
     name = raw_deck.get('name')
     desc = raw_deck.get('description')
     deck_id = add_deck(name, desc, TEST_USER)
     for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
         add_card(question, answer, deck_id)
-    
+    flash('Deck generated successfully')
     return redirect(url_for('decks.deck_editor', deck_id=deck_id))
