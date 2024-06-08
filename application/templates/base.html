@@ -47,6 +47,13 @@
           this.parentNode.style.display = 'none';
         });
       });
+      // Automatically hide flash messages after 3 seconds
+      const flashMessages = document.querySelectorAll('.flash');
+      flashMessages.forEach(function(message) {
+        setTimeout(function() {
+          message.classList.add('fade-out');
+        }, 3000);
+      });
     });
   </script>
 </body>

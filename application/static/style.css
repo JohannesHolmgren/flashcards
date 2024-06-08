@@ -57,6 +57,7 @@ body {
 #flash-messages {
     position: fixed;
     top: 0px;
+    background-color: transparent;
 }
 
 .flash {
@@ -68,6 +69,21 @@ body {
     border: 0.5px solid var(--detailColor);
     border-radius: 3px;
     box-shadow: 0 2px 10px rgba(60, 60, 60);
+}
+
+.fade-out {
+    animation: fadeOut 2s forwards;
+    background-color: transparent;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
 }
 
 .close-button {
