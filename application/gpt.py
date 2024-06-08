@@ -3,8 +3,27 @@
 """
 from openai import OpenAI
 import json
+from json import JSONDecodeError
+from datetime import datetime
+import os
 
 gpt_client = OpenAI()
+
+def log_jsonerror(text, n_cards, focus_areas, res):
+    """ Write a log with all information to logs/gpt_jsonerror. """
+    dir = os.path.dirname('logs/gpt_jsonerror/')
+    if dir and not os.path.exists(dir):
+        os.makedirs(dir)
+    timestamp = datetime.now()
+    log_name = timestamp.strftime('%Y%m%d_%H%M%S_%f')
+    labels = ['Input text', 'n_cards', 'focus_areas', 'Output text']
+    to_log = [str(item) for item in [text, n_cards, focus_areas, res]]
+    with open(f'logs/gpt_jsonerror/{log_name}.log', 'w') as f:
+        for label, item in zip(labels, to_log):
+            f.write(f'=========== {label} ===========')
+            f.write('\n\n')
+            f.write(item)
+            f.write('\n\n')
 
 def ask(input_prompt: str, messages:list =[], model: str='gpt-3.5-turbo', as_json=False):
     """ Calls on the model and returns its answer as a json-object.
@@ -20,7 +39,6 @@ def ask(input_prompt: str, messages:list =[], model: str='gpt-3.5-turbo', as_jso
     # Messages on expected format
     msgs = [{'role': 'system', 'content': message} for message in messages]
     msgs.append({'role': 'user', 'content': input_prompt})
-
     completion = gpt_client.chat.completions.create(
         model=model,
         response_format=None,
@@ -45,32 +63,78 @@ def gpt_generate_deck(text:str, n_cards: int=None, focus_areas:list=[]) -> str:
                 }
     """
     N_MAX_CARDS = 999
-
     msg_create_flashcards = '''
-        You are an assistant to create a deck of flashcards from texts. Return a JSON 
+        You are an assistant to create a deck of flashcards from texts. Return only a JSON 
         object with a key 'name' with the name of the deck, 
         a key 'description' with the description of the deck,
         a key 'questions' with a list of the questions 
         and a key 'answers' with a list of the answers to the question. 
-        The two lists must be the same length
+        The two lists must be the same length. Don't add anything around the JSON object.
     '''
     messages = []
     messages.append(msg_create_flashcards)
-
-    is_iter_focus_area = isinstance(focus_areas, list)
-    if is_iter_focus_area and all([isinstance(area, str) for area in focus_areas]):
-        if not len(focus_areas) == 0:
-            msg_focus_on = 'focus on ' + ','.join(focus_areas)
-            messages.append(msg_focus_on)
-
-    if n_cards and isinstance(n_cards, int):
+    if not is_valid_input(text):
+        return None
+    if is_valid_focus_areas(focus_areas):
+        msg_focus_on = 'focus on ' + ','.join(focus_areas)
+        messages.append(msg_focus_on)
+    if is_valid_number(n_cards):
         # Cap number of cards if too many
         n_cards = min(n_cards, N_MAX_CARDS)
         msg_amount_cards = f"Generate {n_cards} cards"
         messages.append(msg_amount_cards)
+    # Generate deck on JSON shape.
+    # Sometimes the output doesn't work to convert to json,
+    # which is why a JSONDecodeError may occur
+    try:
+        res = ask(text, messages=messages, as_json=True)
+        deck = json.loads(res)
+    except JSONDecodeError as E:
+        log_jsonerror(text, n_cards, focus_areas, res)
+        return None
+    if not is_valid_deck(deck):
+        log_jsonerror(text, n_cards, focus_areas, res)
+        return None
+    return deck
 
-    res = ask(text, messages=messages, as_json=True)
-    return json.loads(res)
+def is_valid_input(text: str):
+    """ Check if the input text is valid.
+        Valid if it's a string
+    """
+    return isinstance(text, str)
+
+def is_valid_focus_areas(focus_areas: list):
+    """ Check if focus_areas is valid.
+        Valid if it's a list containing strings
+    """
+    if not isinstance(focus_areas, list):
+        return False
+    if not all([isinstance(area, str) for area in focus_areas]):
+        return False
+    if not len(focus_areas) > 0:
+        return False
+    return True
+
+def is_valid_number(n_cards: int):
+    """ Check if n_cards is valid.
+        Valid if it's an integer and not None
+    """
+    return isinstance(n_cards, int)
+
+def is_valid_deck(deck: dict):
+    """ Check if a dict is valid.
+        Valid if contains all expected keys and
+        if both questions and answers are lists 
+    """
+    expected_keys = ['name', 'description', 'questions', 'answers']
+    existing_keys = [True if key in deck.keys() else False for key in expected_keys]
+    if not all(existing_keys):
+        return False
+    if not isinstance(deck.get('questions'), list):
+        return False
+    if not isinstance(deck.get('answers'), list):
+        return False
+    return True
 
 
 if __name__ == '__main__':

@@ -300,9 +300,12 @@ def deck_from_text():
     file_content = file.read()
     # text = 'In a world filles with food you can only eat fruits. Stones are very hard and you should never throw them at other people, even if you really feel like it'
     text = file_content.decode('utf-8')
-    deck = gpt_generate_deck(text)
-    deck_id = add_deck(name=deck.get('name'), description=deck.get('description'), user_id=TEST_USER)
-    for question, answer in zip(deck.get('questions'), deck.get('answers')):
+    raw_deck = gpt_generate_deck(text)
+    if not raw_deck:
+        flash('There was an error trying to generate your deck. Please try again')
+        return redirect(url_for('decks.index'))
+    deck_id = add_deck(name=raw_deck.get('name'), description=raw_deck.get('description'), user_id=TEST_USER)
+    for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
         add_card(question, answer, deck_id)
     return redirect(url_for('decks.index'))
 
@@ -315,6 +318,9 @@ def cards_from_desc(deck_id):
     
     # Generate cards
     raw_deck = gpt_generate_deck(description)
+    if not raw_deck:
+        flash('There was an error trying to generate your cards. Please try again')
+        return redirect(url_for('decks.deck_editor', deck_id=deck_id))
     for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
         add_card(question, answer, deck_id)
     
@@ -339,6 +345,9 @@ def generate_deck_begin():
     n_cards = quantities[quantity]
 
     raw_deck = gpt_generate_deck(prompt, n_cards, focus_areas)
+    if not raw_deck:
+        flash('There was an error trying to generate your deck. Please try again')
+        return redirect(url_for('decks.index'))
     name = raw_deck.get('name')
     desc = raw_deck.get('description')
     deck_id = add_deck(name, desc, TEST_USER)
