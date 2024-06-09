@@ -177,6 +177,20 @@ def delete_card(card_id: int):
     )
     db.commit()
 
+def create_cards(questions, answers, deck_id):
+    for question, answer in zip(questions, answers):
+        add_card(question, answer, deck_id)
+
+def dict_to_deck(deck_dict, user_id):
+    """ Create a deck from a dict. Returns deck id """
+    name = deck_dict.get('name')
+    desc = deck_dict.get('description')
+    questions = deck_dict.get('questions')
+    answers = deck_dict.get('answers')
+    deck_id = add_deck(name, desc, user_id)
+    create_cards(questions, answers, deck_id)
+    return deck_id
+
 """ ---------- Index ---------- """
 
 TEST_USER = 0
@@ -346,10 +360,6 @@ def generate_deck_begin():
     if not raw_deck:
         flash('There was an error trying to generate your deck.')
         return redirect(url_for('decks.index'))
-    name = raw_deck.get('name')
-    desc = raw_deck.get('description')
-    deck_id = add_deck(name, desc, TEST_USER)
-    for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
-        add_card(question, answer, deck_id)
+    dict_to_deck(raw_deck, TEST_USER)
     flash('Deck generated successfully')
     return redirect(url_for('decks.deck_editor', deck_id=deck_id))
