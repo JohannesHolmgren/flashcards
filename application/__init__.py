@@ -37,11 +37,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # A simple start page
-    @app.route('/')
-    def home():
-        return 'HOME PAGE'
-    
     @app.route('/haha')
     def haha():
         return render_template('decks/index.html')

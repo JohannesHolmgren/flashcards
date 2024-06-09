@@ -193,6 +193,11 @@ def dict_to_deck(deck_dict, user_id):
 
 """ ---------- Index ---------- """
 
+# A simple start page
+@bp.route('/')
+def home():
+    return redirect(url_for('decks.index'))
+
 TEST_USER = 0
 @bp.route('/decks', methods=('GET', 'POST'))
 def index():
@@ -360,6 +365,6 @@ def generate_deck_begin():
     if not raw_deck:
         flash('There was an error trying to generate your deck.')
         return redirect(url_for('decks.index'))
-    dict_to_deck(raw_deck, TEST_USER)
+    deck_id = dict_to_deck(raw_deck, TEST_USER)
     flash('Deck generated successfully')
     return redirect(url_for('decks.deck_editor', deck_id=deck_id))
