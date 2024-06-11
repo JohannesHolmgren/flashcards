@@ -6,7 +6,7 @@ class Deck(db.Model):
     name = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(500), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.now(datetime.UTC))
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
     cards = db.relationship('Card', backref='deck', lazy=True, cascade='all, delete-orphan')
 
     def __repr__(self):

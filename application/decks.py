@@ -10,30 +10,24 @@
 
 """
 import random
-import json
-import functools
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-
 from werkzeug.exceptions import abort
 
-from application.db import get_db
 from application.gpt import gpt_generate_deck
 
-""" Create blueprint for these views """
-bp = Blueprint('decks', __name__)
+from .models import db
+from .models.user import User
+from .models.card import Card
+from .models.deck import Deck
 
 """ Functions """
 def add_deck(name: str, description: str, user_id: int):
-    db = get_db()
-    db.execute(
-        "INSERT INTO deck (name, description, user_id) VALUES (?, ?, ?)", 
-        (name, description, user_id)
-    )
-    db.commit()
-    deck_id = db.execute('SELECT last_insert_rowid()').fetchone()[0]
-    return deck_id
+    deck = Deck(name=name, description=description, user_id=user_id)
+    db.session.add(deck)
+    db.session.commit()
+    return deck.id
 
 def new_deck(user_id):
     """ Create a new, empty deck with placeholder values """
@@ -42,127 +36,86 @@ def new_deck(user_id):
     deck_id = add_deck(placeholder_name, placeholder_desc, user_id)
     return deck_id
 
-
 def set_deck_name(new_name: str, deck_id: int):
-    db = get_db()
-    db.execute(
-        "UPDATE deck SET name = ? WHERE id = ?",
-        (new_name, deck_id)
-    )
-    db.commit()
+    deck = Deck.query.get(deck_id)
+    deck.name = new_name
+    db.session.commit()
 
-def set_deck_description(new_desc: str, deck_id: int):
-    db = get_db()
-    db.execute(
-        "UPDATE deck SET description = ? WHERE id = ?",
-        (new_desc, deck_id)
-    )
-    db.commit()
+def set_deck_description(new_description: str, deck_id: int):
+    deck = Deck.query.get(deck_id)
+    deck.description = new_description
+    db.session.commit()
 
 def update_deck(new_name: str, new_desc: str, deck_id: int):
     set_deck_name(new_name, deck_id)
     set_deck_description(new_desc, deck_id)
 
 def delete_deck(deck_id: int):
-    db = get_db()
-    db.execute(
-        "DELETE FROM card where deck_id = ?",
-        (deck_id,)
-    )
-    db.execute(
-        "DELETE FROM deck where id = ?",
-        (deck_id,)
-    )
-    db.commit()
+    deck = Deck.query.get(deck_id)
+    db.session.delete(deck)
+    db.session.commit()
 
 def deck_to_dict(deck: tuple) -> dict:
     new_dict = {
-            'id': deck[0],
-            'name': deck[1],
-            'description': deck[2],
-            'user_id': deck[3]
+            'id': deck.id,
+            'name': deck.name,
+            'description': deck.description,
+            'user_id': deck.user_id
         }
     return new_dict
 
 def card_to_dict(card: tuple) -> dict:
     new_dict = {
-        'id': card[0],
-        'front': card[1],
-        'back': card[2],
-        'deck_id': card[3]
+        'id': card.id,
+        'front': card.question,
+        'back': card.answer,
+        'deck_id': card.deck_id
     }
     return new_dict
 
 def get_deck(deck_id):
-    db = get_db()
-    deck = db.execute("SELECT * FROM deck WHERE id = ?", (deck_id,)).fetchone()
+    deck = Deck.query.get(deck_id)
     return deck_to_dict(deck)
 
 def get_decks(user_id):
     """ Get all decks that belong to a certain user """
-    # Get decks from database
-    db = get_db()
-    decks = db.execute(
-        # "SELECT * FROM deck WHERE user_id = ?",
-        "SELECT * FROM deck"
-        # (user_id)
-    ).fetchall()
-    # Convert to dictionary
+    decks = Deck.query.filter_by(user_id=user_id).all()
     deck_dicts = []
     for deck in decks:
         deck_dicts.append(deck_to_dict(deck))
     return deck_dicts
 
-def add_card(front: str, back: str, deck_id: int) -> int:
-    """ Add a card to deck with deck_id.
-        Returns: card's id
-    """
-    db = get_db()
-    db.execute(
-        "INSERT INTO card (front, back, deck_id) VALUES (?, ?, ?)",
-        (front, back, deck_id)       
-    )
-    db.commit()
-    card_id = db.execute('SELECT last_insert_rowid()').fetchone()[0]
-    return card_id
+def add_card(question: str, answer: str, deck_id: int) -> int:
+    card = Card(question=question, answer=answer, deck_id=deck_id)
+    db.session.add(card)
+    db.session.commit()
+    return card.id
 
 def new_card(deck_id: int) -> int:
     """ Create a new, empty card with placeholder values """
-    placeholder_front = ""
-    placeholder_back = ""
-    card_id = add_card(placeholder_front, placeholder_back, deck_id)
+    placeholder_question = ""
+    placeholder_answer = ""
+    card_id = add_card(placeholder_question, placeholder_answer, deck_id)
     return card_id
 
-def set_card_front(new_front: str, card_id: int):
-    db = get_db()
-    db.execute(
-        "UPDATE card SET front = ? WHERE id = ?",
-        (new_front, card_id)
-    )
-    db.commit()
+def set_card_front(new_question: str, card_id: int):
+    card = Card.query.get(card_id)
+    card.question = new_question
+    db.session.commit()
 
-def set_card_back(new_back: str, card_id: int):
-    db = get_db()
-    db.execute(
-        "UPDATE card SET back = ? WHERE id = ?",
-        (new_back, card_id)
-    )
-    db.commit()
+def set_card_back(new_answer: str, card_id: int):
+    card = Card.query.get(card_id)
+    card.answer = new_answer
+    db.session.commit()
 
 def get_card(card_id: int) -> dict:
     """ Get a single card from its id and return as dict """
-    db = get_db()
-    card = db.execute("SELECT * FROM card WHERE id = ?", (card_id,)).fetchone()
+    card = Card.query.get(card_id)
     return card_to_dict(card)
 
 def get_cards(deck_id):
     """ Get all cards that belong to a certain deck """
-    # Get cards from database
-    db = get_db()
-    cards = db.execute(
-        "SELECT * FROM card WHERE deck_id = ?", 
-        (deck_id,)
-    ).fetchall()
+    cards = Card.query.filter_by(deck_id=deck_id).all()
     # Convert to dictionary
     card_dicts = []
     for card in cards:
@@ -170,12 +123,9 @@ def get_cards(deck_id):
     return card_dicts
 
 def delete_card(card_id: int):
-    db = get_db()
-    db.execute(
-        "DELETE FROM card where id = ?",
-        (card_id,)
-    )
-    db.commit()
+    card = Card.query.get(card_id)
+    db.session.delete(card)
+    db.session.commit()
 
 def create_cards(questions, answers, deck_id):
     for question, answer in zip(questions, answers):
@@ -191,7 +141,10 @@ def dict_to_deck(deck_dict, user_id):
     create_cards(questions, answers, deck_id)
     return deck_id
 
+
 """ ---------- Index ---------- """
+# Create blueprint for deck views
+bp = Blueprint('decks', __name__)
 
 # A simple start page
 @bp.route('/')
