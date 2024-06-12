@@ -55,35 +55,14 @@ def delete_deck(deck_id: int):
     db.session.delete(deck)
     db.session.commit()
 
-def deck_to_dict(deck: tuple) -> dict:
-    new_dict = {
-            'id': deck.id,
-            'name': deck.name,
-            'description': deck.description,
-            'user_id': deck.user_id
-        }
-    return new_dict
-
-def card_to_dict(card: tuple) -> dict:
-    new_dict = {
-        'id': card.id,
-        'front': card.question,
-        'back': card.answer,
-        'deck_id': card.deck_id
-    }
-    return new_dict
-
 def get_deck(deck_id):
     deck = Deck.query.get(deck_id)
-    return deck_to_dict(deck)
+    return deck
 
 def get_decks(user_id):
     """ Get all decks that belong to a certain user """
     decks = Deck.query.filter_by(user_id=user_id).all()
-    deck_dicts = []
-    for deck in decks:
-        deck_dicts.append(deck_to_dict(deck))
-    return deck_dicts
+    return decks
 
 def add_card(question: str, answer: str, deck_id: int) -> int:
     card = Card(question=question, answer=answer, deck_id=deck_id)
@@ -111,16 +90,12 @@ def set_card_back(new_answer: str, card_id: int):
 def get_card(card_id: int) -> dict:
     """ Get a single card from its id and return as dict """
     card = Card.query.get(card_id)
-    return card_to_dict(card)
+    return card
 
 def get_cards(deck_id):
     """ Get all cards that belong to a certain deck """
     cards = Card.query.filter_by(deck_id=deck_id).all()
-    # Convert to dictionary
-    card_dicts = []
-    for card in cards:
-        card_dicts.append(card_to_dict(card))
-    return card_dicts
+    return cards
 
 def delete_card(card_id: int):
     card = Card.query.get(card_id)
@@ -235,11 +210,10 @@ def card_editor():
 
 """ ---------- Play a deck of cards ---------- """
 card_ids = []
-
 @bp.route('/decks/init_play_all<int:deck_id>', methods=('GET', 'POST'))
 def init_play_all(deck_id):
     global card_ids
-    card_ids = [card.get('id') for card in get_cards(deck_id)]
+    card_ids = [card.id for card in get_cards(deck_id)]
     random.shuffle(card_ids)
     return redirect(url_for('decks.play_new_card', deck_id=deck_id))
 

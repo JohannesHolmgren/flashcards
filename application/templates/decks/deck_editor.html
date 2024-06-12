@@ -33,11 +33,11 @@
             <div class="card-inner">
               <div class="card-front">
                 <p class="card-title">Question</p>
-                <p class="card-text">{{card.front}}</p>
+                <p class="card-text">{{ card.question }}</p>
               </div>
               <div class="card-back">
                 <p class="card-title">Answer</p>
-                <p class="card-text">{{card.back}}</p>
+                <p class="card-text">{{ card.answer }}</p>
               </div>
             </div>
             <a class="edit-button" href="{{ url_for('decks.card_editor', card_id=card.id, deck_id=deck.id) }}">
