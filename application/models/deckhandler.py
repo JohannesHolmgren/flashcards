@@ -4,18 +4,17 @@ from .deck import Deck
 class Deckhandler:
 
     @staticmethod
-    def add_deck(name: str, description: str, user_id: int):
-        deck = Deck(name=name, description=description, user_id=user_id)
+    def add_deck(name: str, description: str, user: object):
+        deck = Deck(name=name, description=description, user_id=user.id)
         db.session.add(deck)
         db.session.commit()
         return deck.id
 
     @staticmethod
-    def new_deck(user_id):
-        """ Create a new, empty deck with placeholder values """
+    def new_deck(user: object):
         placeholder_name = ""
         placeholder_desc = ""
-        deck_id = Deckhandler.add_deck(placeholder_name, placeholder_desc, user_id)
+        deck_id = Deckhandler.add_deck(placeholder_name, placeholder_desc, user)
         return deck_id
 
     @staticmethod
@@ -47,8 +46,8 @@ class Deckhandler:
         return deck
 
     @staticmethod
-    def get_decks(user_id):
+    def get_decks(user: object):
         """ Get all decks that belong to a certain user """
-        decks = Deck.query.filter_by(user_id=user_id).all()
+        decks = Deck.query.filter_by(user_id=user.id).all()
         return decks
     

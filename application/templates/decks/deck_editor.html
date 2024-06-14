@@ -22,7 +22,7 @@
       <h2>Cards</h2>
       <ul class="cards">
         <!-- Add new card -->
-        <a class="card-link" href="{{ url_for('decks.card_editor', deck_id=deck.id) }}">
+        <a class="card-link" href="{{ url_for('card_editor.card_editor', deck_id=deck.id) }}">
           <div class="card add-card">
             <div class="plus-symbol">+</div>
           </div>
@@ -40,7 +40,7 @@
                 <p class="card-text">{{ card.answer }}</p>
               </div>
             </div>
-            <a class="edit-button" href="{{ url_for('decks.card_editor', card_id=card.id, deck_id=deck.id) }}">
+            <a class="edit-button" href="{{ url_for('card_editor.card_editor', card_id=card.id, deck_id=deck.id) }}">
               <i class="fas fa-pencil-alt"></i>
             </a>
           </li>

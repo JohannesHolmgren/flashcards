@@ -16,16 +16,17 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from application.gpt import gpt_generate_deck
-from .models import Deckhandler, Cardhandler
+from .models import Deckhandler, Cardhandler, Userhandler
 
+""" ---------- Test user during testing ---------- """
 
-def dict_to_deck(deck_dict, user_id):
+def dict_to_deck(deck_dict, user):
     """ Create a deck from a dict. Returns deck id """
     name = deck_dict.get('name')
     desc = deck_dict.get('description')
     questions = deck_dict.get('questions')
     answers = deck_dict.get('answers')
-    deck_id = Deckhandler.add_deck(name, desc, user_id)
+    deck_id = Deckhandler.add_deck(name, desc, user)
     Cardhandler.create_cards(questions, answers, deck_id)
     return deck_id
 
@@ -38,15 +39,15 @@ bp = Blueprint('decks', __name__)
 def home():
     return redirect(url_for('decks.index'))
 
-TEST_USER = 0
 @bp.route('/decks', methods=('GET', 'POST'))
 def index():
+    test_user = Userhandler.get_test_user()
     if request.method == 'POST':
         name = request.form['name']
         description = request.form['description']
-        Deckhandler.add_deck(name, description, TEST_USER)
+        Deckhandler.add_deck(name, description, test_user)
 
-    decks = Deckhandler.get_decks(TEST_USER)
+    decks = Deckhandler.get_decks(test_user)
     return render_template('decks/index.html', decks=decks)
 
 """ ---------- Deck editor ---------- """
@@ -77,48 +78,12 @@ def deck_editor():
         cards = Cardhandler.get_cards(deck_id)
     # No id means new deck
     else:
-        deck_id = Deckhandler.new_deck(TEST_USER)
+        test_user = Userhandler.get_test_user()
+        deck_id = Deckhandler.new_deck(test_user)
         deck = Deckhandler.get_deck(deck_id)
         cards = Cardhandler.get_cards(deck_id)  # Will always be empty
 
     return render_template('decks/deck_editor.html', deck=deck, cards=cards)
-
-""" ---------- Card editor ---------- """
-
-@bp.route('/decks/card_delete/<int:card_id>', methods=('GET', 'POST'))
-def card_delete(card_id: int):
-    deck_id = Cardhandler.get_card(card_id).get('deck_id')
-    Cardhandler.delete_card(card_id)
-    return redirect(url_for('decks.deck_editor', deck_id=deck_id))
-
-@bp.route('/decks/card_save/<int:card_id>', methods=('GET', 'POST'))
-def card_save(card_id: int):
-    front = request.form.get('front')
-    back = request.form.get('back')
-    deck_id = request.form.get('deck_id')
-    Cardhandler.set_card_front(front, card_id)
-    Cardhandler.set_card_back(back, card_id)
-    return redirect(url_for('decks.deck_editor', deck_id=deck_id))
-
-@bp.route('/decks/card_editor', methods=('GET', 'POST'))
-def card_editor():
-    """
-        Arguments passed:
-        card_id: id or None
-    """
-    # Load card if exists else create new card
-    card_id = request.args.get('card_id')
-    deck_id = request.args.get('deck_id')
-    if not deck_id:
-        flash('NO DECK ID! WARNING')
-    if card_id:
-        card = Cardhandler.get_card(card_id)
-    else:
-        card_id = Cardhandler.new_card(deck_id)
-        card = Cardhandler.get_card(card_id)
-    
-    return render_template('decks/card_editor.html', card=card)
-
 
 """ ---------- Play a deck of cards ---------- """
 card_ids = []
@@ -163,7 +128,8 @@ def deck_from_text():
     if not raw_deck:
         flash('There was an error trying to generate your deck.')
         return redirect(url_for('decks.index'))
-    deck_id = Deckhandler.add_deck(name=raw_deck.get('name'), description=raw_deck.get('description'), user_id=TEST_USER)
+    test_user = Userhandler.get_test_user()
+    deck_id = Deckhandler.add_deck(name=raw_deck.get('name'), description=raw_deck.get('description'), user=test_user)
     for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
         Cardhandler.add_card(question, answer, deck_id)
     return redirect(url_for('decks.index'))
@@ -183,7 +149,7 @@ def cards_from_desc(deck_id):
         Cardhandler.add_card(question, answer, deck_id)
     
     deck = Deckhandler.get_deck(deck_id)
-    return redirect(url_for('decks.deck_editor', deck_id=deck.get('id')))
+    return redirect(url_for('decks.deck_editor', deck_id=deck.id))
 
 @bp.route('/decks/generate_deck')
 def generate_deck():
@@ -204,6 +170,7 @@ def generate_deck_begin():
     if not raw_deck:
         flash('There was an error trying to generate your deck.')
         return redirect(url_for('decks.index'))
-    deck_id = dict_to_deck(raw_deck, TEST_USER)
+    test_user = Userhandler.get_test_user()
+    deck_id = dict_to_deck(raw_deck, test_user)
     flash('Deck generated successfully')
     return redirect(url_for('decks.deck_editor', deck_id=deck_id))
