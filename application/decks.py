@@ -85,39 +85,6 @@ def deck_editor():
 
     return render_template('decks/deck_editor.html', deck=deck, cards=cards)
 
-""" ---------- Play a deck of cards ---------- """
-card_ids = []
-@bp.route('/decks/init_play_all<int:deck_id>', methods=('GET', 'POST'))
-def init_play_all(deck_id):
-    global card_ids
-    card_ids = [card.id for card in Cardhandler.get_cards(deck_id)]
-    random.shuffle(card_ids)
-    return redirect(url_for('decks.play_new_card', deck_id=deck_id))
-
-@bp.route('/decks/play_new_card<int:deck_id>')
-def play_new_card(deck_id):
-    if len(card_ids) == 0:
-        return redirect(url_for('decks.play_end', deck_id=deck_id))
-    
-    card_id = card_ids.pop()
-    return redirect(url_for('decks.play_card_front', card_id=card_id))
-
-@bp.route('/decks/play_card_front<int:card_id>', methods=('GET', 'POST'))
-def play_card_front(card_id):
-    card = Cardhandler.get_card(card_id)
-    return render_template('decks/play_card_front.html', card=card)
-
-@bp.route('/decks/play_card_back<int:card_id>', methods=('GET', 'POST'))
-def play_card_back(card_id):
-    card = Cardhandler.get_card(card_id)
-    return render_template('decks/play_card_back.html', card=card)
-
-@bp.route('/decks/play_end<int:deck_id>', methods=('GET', 'POST'))
-def play_end(deck_id):
-    deck = Deckhandler.get_deck(deck_id)
-    return render_template('decks/play_end.html', deck=deck)
-
-
 """ ---------- Generate decks of cards ---------- """
 @bp.route('/decks/deck_from_text/', methods=('GET', 'POST'))
 def deck_from_text():

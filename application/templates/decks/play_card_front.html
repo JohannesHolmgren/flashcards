@@ -7,6 +7,6 @@
 {% block content %}
   <div class="card-editor">
     <p>{{ card.question }}</p>
-    <a href="{{ url_for('decks.play_card_back', card_id=card.id) }}" class="button">Show Answer</a>
+    <a href="{{ url_for('play.play_card_back', card_id=card.id) }}" class="button">Show Answer</a>
   </div>
 {% endblock %}
