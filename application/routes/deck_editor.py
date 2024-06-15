@@ -1,8 +1,7 @@
 """
-    This file contains all views for playing a deck.
+    This file contains all views for editing a deck.
 """
 
-import random
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )

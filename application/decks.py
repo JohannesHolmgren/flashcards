@@ -20,15 +20,15 @@ from .models import Deckhandler, Cardhandler, Userhandler
 
 """ ---------- Test user during testing ---------- """
 
-def dict_to_deck(deck_dict, user):
-    """ Create a deck from a dict. Returns deck id """
+""" def dict_to_deck(deck_dict, user):
+    Create a deck from a dict. Returns deck id
     name = deck_dict.get('name')
     desc = deck_dict.get('description')
     questions = deck_dict.get('questions')
     answers = deck_dict.get('answers')
     deck_id = Deckhandler.add_deck(name, desc, user)
     Cardhandler.create_cards(questions, answers, deck_id)
-    return deck_id
+    return deck_id """
 
 """ ---------- Index ---------- """
 # Create blueprint for deck views
@@ -83,7 +83,7 @@ def deck_editor():
     return render_template('decks/deck_editor.html', deck=deck, cards=cards) """
 
 """ ---------- Generate decks of cards ---------- """
-@bp.route('/decks/deck_from_text/', methods=('GET', 'POST'))
+""" @bp.route('/decks/deck_from_text/', methods=('GET', 'POST'))
 def deck_from_text():
     file = request.files['file']
     file_content = file.read()
@@ -137,4 +137,4 @@ def generate_deck_begin():
     test_user = Userhandler.get_test_user()
     deck_id = dict_to_deck(raw_deck, test_user)
     flash('Deck generated successfully')
-    return redirect(url_for('deck_editor.deck_editor', deck_id=deck_id))
+    return redirect(url_for('deck_editor.deck_editor', deck_id=deck_id)) """

@@ -62,7 +62,7 @@
 
     function submitGenerateForm() {
       var form = document.querySelector('.deck-info');
-      form.action = "{{ url_for('decks.cards_from_desc', deck_id=deck.id) }}";
+      form.action = "{{ url_for('generate_deck.cards_from_desc', deck_id=deck.id) }}";
       form.submit();
     }
   </script>
