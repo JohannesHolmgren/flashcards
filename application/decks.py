@@ -52,7 +52,7 @@ def index():
 
 """ ---------- Deck editor ---------- """
 
-@bp.route('/decks/deck_delete/<int:deck_id>', methods=('GET', 'POST'))
+""" @bp.route('/decks/deck_delete/<int:deck_id>', methods=('GET', 'POST'))
 def deck_delete(deck_id: int):
     Deckhandler.delete_deck(deck_id)
     flash('Deck deleted succesfully')
@@ -68,9 +68,6 @@ def deck_save(deck_id: int):
 
 @bp.route('/decks/deck_editor', methods=('GET', 'POST')) 
 def deck_editor():
-    """ Arguments passed:
-        deck_id: id or None
-    """
     # Load deck if exists
     deck_id = request.args.get('deck_id')
     if deck_id:
@@ -83,7 +80,7 @@ def deck_editor():
         deck = Deckhandler.get_deck(deck_id)
         cards = Cardhandler.get_cards(deck_id)  # Will always be empty
 
-    return render_template('decks/deck_editor.html', deck=deck, cards=cards)
+    return render_template('decks/deck_editor.html', deck=deck, cards=cards) """
 
 """ ---------- Generate decks of cards ---------- """
 @bp.route('/decks/deck_from_text/', methods=('GET', 'POST'))
@@ -111,12 +108,12 @@ def cards_from_desc(deck_id):
     raw_deck = gpt_generate_deck(description)
     if not raw_deck:
         flash('There was an error trying to generate your cards.')
-        return redirect(url_for('decks.deck_editor', deck_id=deck_id))
+        return redirect(url_for('deck_editor.deck_editor', deck_id=deck_id))
     for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
         Cardhandler.add_card(question, answer, deck_id)
     
     deck = Deckhandler.get_deck(deck_id)
-    return redirect(url_for('decks.deck_editor', deck_id=deck.id))
+    return redirect(url_for('deck_editor.deck_editor', deck_id=deck.id))
 
 @bp.route('/decks/generate_deck')
 def generate_deck():
@@ -140,4 +137,4 @@ def generate_deck_begin():
     test_user = Userhandler.get_test_user()
     deck_id = dict_to_deck(raw_deck, test_user)
     flash('Deck generated successfully')
-    return redirect(url_for('decks.deck_editor', deck_id=deck_id))
+    return redirect(url_for('deck_editor.deck_editor', deck_id=deck_id))

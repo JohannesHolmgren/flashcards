@@ -12,7 +12,7 @@
         <div class="plus-symbol">+</div>
       </div>
       <div class="play-deck-buttons">
-        <a href="{{ url_for('decks.deck_editor') }}" class="button">Create New</a>
+        <a href="{{ url_for('deck_editor.deck_editor') }}" class="button">Create New</a>
         <a href="{{ url_for('decks.generate_deck')}}" class="button">Generate From File</a>
       </div>
     </div>
@@ -33,7 +33,7 @@
         <a href="{{ url_for('play.init_play_all', deck_id=deck.id) }}" class="button">Practice</a>
         <a href="{{ url_for('play.init_play_all', deck_id=deck.id) }}" class="button">Play All</a>
       </div>
-      <a class="edit-button" href="{{ url_for('decks.deck_editor', deck_id=deck.id) }}">
+      <a class="edit-button" href="{{ url_for('deck_editor.deck_editor', deck_id=deck.id) }}">
         <i class="fas fa-pencil-alt"></i>
       </a>
     </div>

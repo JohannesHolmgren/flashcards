@@ -6,14 +6,14 @@ from application.models.cardhandler import Cardhandler
 # Create blueprint for deck views
 bp = Blueprint('card_editor', __name__)
 
-""" ----- Routes ----- """
+""" ---------- Routes ---------- """
 
 @bp.route('/card_editor/card_delete/<int:card_id>', methods=('GET', 'POST'))
 def card_delete(card_id: int):
     card = Cardhandler.get_card(card_id)
     deck_id = card.deck_id
     Cardhandler.delete_card(card_id)
-    return redirect(url_for('decks.deck_editor', deck_id=deck_id))
+    return redirect(url_for('deck_editor.deck_editor', deck_id=deck_id))
 
 @bp.route('/card_editor/card_save/<int:card_id>', methods=('GET', 'POST'))
 def card_save(card_id: int):
@@ -22,7 +22,7 @@ def card_save(card_id: int):
     deck_id = request.form.get('deck_id')
     Cardhandler.set_card_front(front, card_id)
     Cardhandler.set_card_back(back, card_id)
-    return redirect(url_for('decks.deck_editor', deck_id=deck_id))
+    return redirect(url_for('deck_editor.deck_editor', deck_id=deck_id))
 
 @bp.route('/card_editor', methods=('GET', 'POST'))
 def card_editor():
