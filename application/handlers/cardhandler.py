@@ -1,5 +1,5 @@
-from .card import Card
-from .base import db
+from application.models.card import Card
+from application.models.base import db
 
 class Cardhandler:
 

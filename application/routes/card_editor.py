@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-from application.models.cardhandler import Cardhandler
+from application.handlers import Cardhandler
 
 # Create blueprint for deck views
 bp = Blueprint('card_editor', __name__)

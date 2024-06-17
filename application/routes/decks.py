@@ -2,7 +2,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 
-from application.models import Deckhandler, Userhandler
+from application.handlers import Deckhandler, Userhandler
 
 # Create blueprint for deck views
 bp = Blueprint('decks', __name__)

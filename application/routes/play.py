@@ -6,8 +6,7 @@ import random
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-from application.models.cardhandler import Cardhandler
-from application.models.deckhandler import Deckhandler
+from application.handlers import Cardhandler, Deckhandler
 
 # Create blueprint for deck views
 bp = Blueprint('play', __name__)

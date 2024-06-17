@@ -1,5 +1,5 @@
-from .base import db
-from .deck import Deck
+from application.models.base import db
+from application.models.deck import Deck
 
 class Deckhandler:
 

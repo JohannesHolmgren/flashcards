@@ -10,6 +10,7 @@ from flask import Flask
 
 from . import models
 from . import routes
+from . import handlers
 
 # The app creator
 def create_app(config_class='config.Config'):
@@ -22,5 +23,8 @@ def create_app(config_class='config.Config'):
     
     # Init routes
     routes.init_app(app)
+
+    # Init handlers
+    handlers.init_app(app)
 
     return app

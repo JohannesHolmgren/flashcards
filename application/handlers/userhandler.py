@@ -1,5 +1,5 @@
-from .base import db
-from .user import User
+from application.models.base import db
+from application.models.user import User
 from config import Config
 
 class Userhandler:

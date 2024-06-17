@@ -5,9 +5,7 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-from application.models.cardhandler import Cardhandler
-from application.models.deckhandler import Deckhandler
-from application.models.userhandler import Userhandler
+from application.handlers import Cardhandler, Deckhandler, Userhandler
 from application.gpt import gpt_generate_deck
 
 # Create blueprint for deck views
