@@ -16,3 +16,15 @@ class Userhandler:
         db.session.add(user)
         db.session.commit()
         return user
+    
+    @staticmethod
+    def add_user(username: str, email: str, password: str):
+        user = User(username=username, email=email)
+        user.set_password(password)
+        db.session.add(user)
+        db.session.commit()
+        return user.id
+    
+    @staticmethod
+    def get_by_username(username: str):
+        return User.query.filter_by(username=username).first()

@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from application.auth import login_manager
+# from application.auth import login_manager
 from .base import db
 
 
@@ -23,8 +23,3 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-
-# Specify for login manager function to retrieve user from user_id
-@login_manager.user_loader
-def loader_user(user_id: int):
-    return User.query.get(int(user_id))

@@ -1,21 +1,17 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    <h1>{% block title %}Register{% endblock %}</h1>
+    <h1>{% block title %}Login{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <div class="card-editor">
-    <form method="post" action="{{ url_for('auth.register') }}">
+    <form method="post" action="{{ url_for('auth.login') }}">
       {{ form.hidden_tag() }}
       <label for="username">Username</label>
       {{ form.username }}
-      <label for="email">Email</label>
-      {{ form.email }}
       <label for="password">Password</label>
       {{ form.password }}
-      <label for="confirm_password">Confirm Password</label>
-      {{ form.confirm_password }}
       {{ form.submit }}
     </form>
   </div>
