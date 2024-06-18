@@ -11,6 +11,7 @@ from flask import Flask
 from . import models
 from . import routes
 from . import handlers
+from . import auth
 
 # The app creator
 def create_app(config_class='config.Config'):
@@ -26,5 +27,8 @@ def create_app(config_class='config.Config'):
 
     # Init handlers
     handlers.init_app(app)
+
+    # Init authenticator
+    auth.init_app(app)
 
     return app
