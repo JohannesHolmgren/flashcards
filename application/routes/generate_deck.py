@@ -5,6 +5,8 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
+from flask_login import login_required
+
 from application.handlers import Cardhandler, Deckhandler, Userhandler
 from application.gpt import gpt_generate_deck
 
@@ -26,6 +28,7 @@ def dict_to_deck(deck_dict, user):
 """ ---------- Routes ---------- """
 
 @bp.route('/generate_deck/deck_from_text/', methods=('GET', 'POST'))
+@login_required
 def deck_from_text():
     file = request.files['file']
     file_content = file.read()
@@ -41,6 +44,7 @@ def deck_from_text():
     return redirect(url_for('decks.index'))
 
 @bp.route('/generate_deck/cards_from_desc<int:deck_id>', methods=('GET', 'POST'))
+@login_required
 def cards_from_desc(deck_id):
     # Save deck
     name = request.form.get('name')
@@ -58,10 +62,12 @@ def cards_from_desc(deck_id):
     return redirect(url_for('deck_editor.deck_editor', deck_id=deck.id))
 
 @bp.route('/generate_deck/generate_deck')
+@login_required
 def generate_deck():
     return render_template('decks/generate_deck.html')
 
 @bp.route('/generate_deck/generate_deck_begin', methods=('GET', 'POST'))
+@login_required
 def generate_deck_begin():
     quantities = {
         'few': 10,

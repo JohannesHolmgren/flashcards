@@ -4,6 +4,7 @@ from .registrationform import RegistrationForm
 from application.models.user import User
 
 login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
 
 # Specify for login manager function to retrieve user from user_id
 @login_manager.user_loader

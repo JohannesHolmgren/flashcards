@@ -5,6 +5,8 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
+from flask_login import login_required
+
 from application.handlers import Cardhandler, Deckhandler, Userhandler
 
 # Create blueprint for deck views
@@ -13,12 +15,14 @@ bp = Blueprint('deck_editor', __name__)
 """ ---------- Routes ---------- """
 
 @bp.route('/deck_editor/deck_delete/<int:deck_id>', methods=('GET', 'POST'))
+@login_required
 def deck_delete(deck_id: int):
     Deckhandler.delete_deck(deck_id)
     flash('Deck deleted succesfully')
     return redirect(url_for('decks.index'))
 
 @bp.route('/deck_editor/deck_save/<int:deck_id>', methods=('GET', 'POST'))
+@login_required
 def deck_save(deck_id: int):
     name = request.form.get('name')
     description = request.form.get('description')
@@ -27,6 +31,7 @@ def deck_save(deck_id: int):
     return redirect(url_for('decks.index'))
 
 @bp.route('/deck_editor/deck_editor', methods=('GET', 'POST')) 
+@login_required
 def deck_editor():
     """ Arguments passed:
         deck_id: id or None

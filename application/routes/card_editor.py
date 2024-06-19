@@ -1,6 +1,8 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
+from flask_login import login_required
+
 from application.handlers import Cardhandler
 
 # Create blueprint for deck views
@@ -9,6 +11,7 @@ bp = Blueprint('card_editor', __name__)
 """ ---------- Routes ---------- """
 
 @bp.route('/card_editor/card_delete/<int:card_id>', methods=('GET', 'POST'))
+@login_required
 def card_delete(card_id: int):
     card = Cardhandler.get_card(card_id)
     deck_id = card.deck_id
@@ -16,6 +19,7 @@ def card_delete(card_id: int):
     return redirect(url_for('deck_editor.deck_editor', deck_id=deck_id))
 
 @bp.route('/card_editor/card_save/<int:card_id>', methods=('GET', 'POST'))
+@login_required
 def card_save(card_id: int):
     front = request.form.get('front')
     back = request.form.get('back')
@@ -25,6 +29,7 @@ def card_save(card_id: int):
     return redirect(url_for('deck_editor.deck_editor', deck_id=deck_id))
 
 @bp.route('/card_editor', methods=('GET', 'POST'))
+@login_required
 def card_editor():
     """
         Arguments passed:

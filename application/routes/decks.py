@@ -1,6 +1,7 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
+from flask_login import login_required
 
 from application.handlers import Deckhandler, Userhandler
 
@@ -13,6 +14,7 @@ def home():
     return redirect(url_for('decks.index'))
 
 @bp.route('/decks', methods=('GET', 'POST'))
+@login_required
 def index():
     test_user = Userhandler.get_test_user()
     if request.method == 'POST':
