@@ -5,7 +5,7 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-from flask_login import login_user
+from flask_login import login_user, logout_user, login_required
 
 from application.auth import LoginForm, RegistrationForm
 from application.handlers import Userhandler
@@ -44,3 +44,9 @@ def register():
     flash('Account created successfully. Proceed to log in')
     return redirect(url_for('auth.login'))
 
+@bp.route('/auth/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Logged out')
+    return redirect(url_for('auth.login'))
