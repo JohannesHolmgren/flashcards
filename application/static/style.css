@@ -2,6 +2,7 @@
 @import 'navbar.css';
 @import 'card.css';
 @import 'deck.css';
+@import 'login.css';
 
 /* Get inter font */
 .inter-font {
@@ -53,6 +54,20 @@ a {
 
 .button:focus {
     background-color: rgba(128, 128, 128, 0.1);
+}
+
+.box {
+    width: 60%;
+    height: 60vh;
+    padding: 20px 10px;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--detailColor);
+    border-radius: 10px;
+    overflow-y: auto;   /* Make it scroll */
 }
 
 /* Main body */

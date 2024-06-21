@@ -1,0 +1,39 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+}
+
+.login-page .box {
+    width: 400px;
+    justify-content: space-evenly;
+}
+
+.login-page h2 {
+    font-size: xx-large;
+    font-weight: 400;
+}
+
+.login {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.login-form input[type=text], input[type=password] {
+    border: 0.5px solid var(--detailColor);
+    width: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    resize: none;
+    border-radius: 10px;
+}
+
+#register-now a {
+    text-decoration: underline;
+}
