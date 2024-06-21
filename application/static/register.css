@@ -1,14 +1,15 @@
-.login-page {
+.register-page {
     display: flex;
     justify-content: center;
 }
 
-.login-page .box {
-    width: 400px;
+.register-page .box {
+    width: 500px;
+    height: 80vh;
     justify-content: space-evenly;
 }
 
-.login-page h2 {
+.register-page h2 {
     font-size: xx-large;
     font-weight: 400;
 }
@@ -19,10 +20,12 @@
     width: 80%;
 } */
 
-.sign-form {
+.register-page .sign-form {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
+    width: 60%;
+
 }
 
 .sign-form input[type=text], input[type=password] {
@@ -34,6 +37,6 @@
     border-radius: 10px;
 }
 
-#register-now a {
+#login-now a {
     text-decoration: underline;
 }

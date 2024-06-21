@@ -8,8 +8,7 @@
   <div class="login-page">
     <div class="box">
       <h2>Log In</h2>
-      <div class="login">
-        <form class="login-form" method="post" action="{{ url_for('auth.login') }}">
+        <form class="sign-form" method="post" action="{{ url_for('auth.login') }}">
           {{ form.hidden_tag() }}
           <label for="username">Username</label>
           {{ form.username }}
@@ -17,7 +16,6 @@
           {{ form.password }}
           {{ form.submit(class_='button') }}
         </form>
-      </div>
       <div id="register-now">
         <p>Don't have an account? <a href="{{ url_for('auth.register') }}">Register here</a></p>
       </div>
