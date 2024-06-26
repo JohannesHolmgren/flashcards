@@ -27,9 +27,9 @@ def dict_to_deck(deck_dict, user):
 
 """ ---------- Routes ---------- """
 
-@bp.route('/generate_deck/deck_from_text/', methods=('GET', 'POST'))
+@bp.route('/generate_deck/deck_from_file/', methods=('GET', 'POST'))
 @login_required
-def deck_from_text():
+def deck_from_file():
     file = request.files['file']
     file_content = file.read()
     text = file_content.decode('utf-8')
@@ -61,10 +61,15 @@ def cards_from_desc(deck_id):
     deck = Deckhandler.get_deck(deck_id)
     return redirect(url_for('deck_editor.deck_editor', deck_id=deck.id))
 
-@bp.route('/generate_deck/generate_deck')
+@bp.route('/generate_deck/from_prompt')
 @login_required
-def generate_deck():
+def from_prompt():
     return render_template('decks/generate_deck.html')
+
+@bp.route('/generate_deck/from_file')
+@login_required
+def from_text():
+    return render_template('decks/generate_deck.html') # TODO create this
 
 @bp.route('/generate_deck/generate_deck_begin', methods=('GET', 'POST'))
 @login_required

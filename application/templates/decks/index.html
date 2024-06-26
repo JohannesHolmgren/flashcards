@@ -13,11 +13,12 @@
       </div>
       <div class="play-deck-buttons">
         <a href="{{ url_for('deck_editor.deck_editor') }}" class="button">Create New</a>
-        <a href="{{ url_for('generate_deck.generate_deck')}}" class="button">Generate From File</a>
+        <a href="{{ url_for('generate_deck.from_prompt')}}" class="button">Generate From Prompt</a>
+        <a href="{{ url_for('generate_deck.from_prompt')}}" class="button">Generate From File</a>
       </div>
     </div>
     <div class="deck-box">
-      <form action="{{ url_for('generate_deck.deck_from_text') }}" method="post" enctype="multipart/form-data">
+      <form action="{{ url_for('generate_deck.deck_from_file') }}" method="post" enctype="multipart/form-data">
         <input type="file" name="file">
         <input type="submit" value="Upload">
       </form>
