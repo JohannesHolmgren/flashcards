@@ -1,0 +1,44 @@
+.generate-form {
+    width: 80%;
+    height: 100%;
+    padding: 0px 0px 30px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.generate-form h2 {
+    margin-bottom: 20px;
+}
+
+.file-drop-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 20px 10px;
+    border: 1px dotted var(--detailColor);
+    border-radius: 10px;
+    text-align: center;
+}
+
+#file-drop-box.highlight {
+    border-color: purple;
+}
+
+.file-drop-box h3 {
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.file-drop-box p {
+    font-size: small;
+    font-weight: 200;
+}
+
+#uploaded-file-name {
+    font-size: medium;
+    font-weight: 300;
+    margin-bottom: 10px;
+}

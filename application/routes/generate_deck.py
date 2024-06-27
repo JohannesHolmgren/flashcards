@@ -68,8 +68,8 @@ def from_prompt():
 
 @bp.route('/generate_deck/from_file')
 @login_required
-def from_text():
-    return render_template('decks/generate_deck.html') # TODO create this
+def from_file():
+    return render_template('generate_deck/from_file.html')
 
 @bp.route('/generate_deck/generate_deck_begin', methods=('GET', 'POST'))
 @login_required

@@ -4,6 +4,7 @@
 @import 'deck.css';
 @import 'login.css';
 @import 'register.css';
+@import 'generate.css';
 
 /* Get inter font */
 .inter-font {
@@ -197,14 +198,14 @@ body {
     overflow-y: auto;   /* Make it scroll */
 }
 
-.card-editor form {
+/* .card-editor form {
     width: 60%;
     height: 100%;
     padding: 0px 0px 30px 0px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-}
+    align-items: center;
+} */
 
 .card-editor h2 {
     font-weight: 500;
@@ -212,7 +213,7 @@ body {
 }
 
 .card-editor textarea {
-    width: auto;
+    width: 80%;
     height: 200px;
     margin-bottom: 20px;
     padding: 10px;
