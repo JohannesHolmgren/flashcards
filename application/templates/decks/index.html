@@ -17,12 +17,6 @@
         <a href="{{ url_for('generate_deck.from_file')}}" class="button">Generate From File</a>
       </div>
     </div>
-    <div class="deck-box">
-      <form action="{{ url_for('generate_deck.deck_from_file') }}" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
-      </form>
-    </div>
     <!-- Show all decks -->
     {% for deck in decks: %}
     <div class="deck-box">

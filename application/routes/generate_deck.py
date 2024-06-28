@@ -30,10 +30,15 @@ def dict_to_deck(deck_dict, user):
 @bp.route('/generate_deck/deck_from_file/', methods=('GET', 'POST'))
 @login_required
 def deck_from_file():
+    # Get input
     file = request.files['file']
+    n_cards = request.form.get('n_cards')
+    prompt = request.form.get('prompt')
+    # Decode file content
     file_content = file.read()
     text = file_content.decode('utf-8')
-    raw_deck = gpt_generate_deck(text)
+    # Generate deck
+    raw_deck = gpt_generate_deck(text, int(n_cards), [prompt])
     if not raw_deck:
         flash('There was an error trying to generate your deck.')
         return redirect(url_for('decks.index'))

@@ -22,6 +22,7 @@
     box-sizing: border-box;
     --backgroundColor: #1E1E1E;
     --detailColor: #DADADA;
+    --accentColor: #40798C;
     --navHeight: 10vh;
     font-family: 'Inter';
     color: var(--detailColor);
@@ -37,7 +38,7 @@ a {
     color: var(--detailColor);
 }
 
-.button {
+.button, .secondary-button {
 	background: none;
 	color: inherit;
 	padding: 10px 20px;
@@ -50,13 +51,18 @@ a {
     background-color: var(--backgroundColor);
 }
 
-.button:hover {
+.secondary-button {
+    border: 0.5px solid var(--detailColor);
+}
+
+.button:hover, .secondary-button:hover {
     background-color: rgba(128, 128, 128, 0.1);
 }
 
-.button:focus {
+.button:focus, .secondary-button:focus {
     background-color: rgba(128, 128, 128, 0.1);
 }
+
 
 .box {
     width: 60%;
@@ -185,7 +191,7 @@ body {
 
 /* ----- New card editor ----- */
 .card-editor {
-    width: 60%;
+    min-width: 60%;
     height: 60vh;
     padding: 20px 10px;
     align-self: center;

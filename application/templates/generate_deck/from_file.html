@@ -5,18 +5,28 @@
 {% endblock %}
 
 {% block content %}
-  <div class="card-editor">
+  <div class="card-editor" id="file-generator-view">
     <form class="generate-form" action="{{ url_for('generate_deck.deck_from_file') }}" method="post" enctype="multipart/form-data">
       <h2>Generate deck from File</h2>
       <div class="file-drop-box" id="file-drop-box">
         <h3>Drag & drop file here or click to select a file</h3>
         <p id="uploaded-file-name">no file selected</p>
-        <input type="file" id="fileElem" name="file" accept=".txt, .md, .pdf" onchange="handleFile(this.files)" hidden>
-        <label class="button" for="fileElem">Select a file</label>
+        <input type="file" id="fileElem" name="file" accept=".txt, .md, .pdf" onchange="handleFile(this.files)" hidden required>
+        <label class="secondary-button" for="fileElem">Select a file</label>
         <p>Files supported: .pdf, .txt, .md</p>
       </div>
+      <div class="slider-box">
+        <label for="n_cards_slider">Amount of Cards</label>
+        <input type="range" min="5" max="75" value="40" step="5" class="slider" id="n_cards_slider" name="n_cards">
+        <p id="n_cards"></p>
+      </div>
+
+      <label for="prompt">Specify Focus</label>
+      <textarea name="prompt" id="file-prompt" placeholder="Further specify the focus of the deck..."></textarea>
+
       <input type="submit" value="Generate deck" class="button">
     </form>
   </div>
+  <script src="{{ url_for('static', filename='scripts/cardrange_slider.js') }}"></script>
   <script src="{{ url_for('static', filename='scripts/upload_file.js') }}"></script>
 {% endblock %}
