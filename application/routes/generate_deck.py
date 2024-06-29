@@ -5,9 +5,9 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-from flask_login import login_required
+from flask_login import login_required, current_user
 
-from application.handlers import Cardhandler, Deckhandler, Userhandler
+from application.handlers import Cardhandler, Deckhandler
 from application.gpt import gpt_generate_deck
 
 # Create blueprint for deck views
@@ -42,8 +42,7 @@ def deck_from_file():
     if not raw_deck:
         flash('There was an error trying to generate your deck.')
         return redirect(url_for('decks.index'))
-    test_user = Userhandler.get_test_user()
-    deck_id = Deckhandler.add_deck(name=raw_deck.get('name'), description=raw_deck.get('description'), user=test_user)
+    deck_id = Deckhandler.add_deck(name=raw_deck.get('name'), description=raw_deck.get('description'), user=current_user)
     for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
         Cardhandler.add_card(question, answer, deck_id)
     return redirect(url_for('decks.index'))
@@ -92,7 +91,6 @@ def generate_deck_begin():
     if not raw_deck:
         flash('There was an error trying to generate your deck.')
         return redirect(url_for('decks.index'))
-    test_user = Userhandler.get_test_user()
-    deck_id = dict_to_deck(raw_deck, test_user)
+    deck_id = dict_to_deck(raw_deck, current_user)
     flash('Deck generated successfully')
     return redirect(url_for('deck_editor.deck_editor', deck_id=deck_id))

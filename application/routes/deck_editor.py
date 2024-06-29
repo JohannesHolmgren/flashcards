@@ -5,7 +5,7 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from application.handlers import Cardhandler, Deckhandler, Userhandler
 
@@ -43,8 +43,7 @@ def deck_editor():
         cards = Cardhandler.get_cards(deck_id)
     # No id means new deck
     else:
-        test_user = Userhandler.get_test_user()
-        deck_id = Deckhandler.new_deck(test_user)
+        deck_id = Deckhandler.new_deck(current_user)
         deck = Deckhandler.get_deck(deck_id)
         cards = Cardhandler.get_cards(deck_id)  # Will always be empty
 

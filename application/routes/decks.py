@@ -1,9 +1,9 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-from flask_login import login_required
+from flask_login import login_required, current_user
 
-from application.handlers import Deckhandler, Userhandler
+from application.handlers import Deckhandler
 
 # Create blueprint for deck views
 bp = Blueprint('decks', __name__)
@@ -16,11 +16,10 @@ def home():
 @bp.route('/decks', methods=('GET', 'POST'))
 @login_required
 def index():
-    test_user = Userhandler.get_test_user()
     if request.method == 'POST':
         name = request.form['name']
         description = request.form['description']
-        Deckhandler.add_deck(name, description, test_user)
+        Deckhandler.add_deck(name, description, current_user)
 
-    decks = Deckhandler.get_decks(test_user)
+    decks = Deckhandler.get_decks(current_user)
     return render_template('decks/index.html', decks=decks)
