@@ -51,3 +51,7 @@ class Deckhandler:
         decks = Deck.query.filter_by(user_id=user.id).all()
         return decks
     
+    @staticmethod
+    def is_owned_by(user: object, deck_id: int) -> bool:
+        deck = Deckhandler.get_deck(deck_id)
+        return deck.user_id == user.id

@@ -7,7 +7,7 @@ from flask import (
 )
 from flask_login import login_required, current_user
 
-from application.handlers import Cardhandler, Deckhandler, Userhandler
+from application.handlers import Cardhandler, Deckhandler
 
 # Create blueprint for deck views
 bp = Blueprint('deck_editor', __name__)
@@ -39,6 +39,9 @@ def deck_editor():
     # Load deck if exists
     deck_id = request.args.get('deck_id')
     if deck_id:
+        if not Deckhandler.is_owned_by(current_user, deck_id):
+            flash("You don't have permission to edit this deck")
+            return redirect(url_for('decks.index'))
         deck = Deckhandler.get_deck(deck_id)
         cards = Cardhandler.get_cards(deck_id)
     # No id means new deck
