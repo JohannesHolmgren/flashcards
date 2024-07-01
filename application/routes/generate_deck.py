@@ -9,6 +9,7 @@ from flask_login import login_required, current_user
 
 from application.handlers import Cardhandler, Deckhandler
 from application.gpt import gpt_generate_deck
+from application.engine import pdf_reader
 
 # Create blueprint for deck views
 bp = Blueprint('generate_deck', __name__)
@@ -25,6 +26,21 @@ def dict_to_deck(deck_dict, user):
     Cardhandler.create_cards(questions, answers, deck_id)
     return deck_id
 
+def get_extension(filename: str) -> str:
+    return filename.rsplit('.', 1)[1].lower()
+
+def is_pdf(filename: str) -> bool:
+    if not '.' in filename: return False
+    return get_extension(filename) == 'pdf'
+
+def is_markdown(filename: str) -> bool:
+    if not '.' in filename: return False
+    return get_extension(filename) == 'md'
+
+def is_txt(filename: str) -> bool:
+    if not '.' in filename: return False
+    return get_extension(filename) == 'txt'
+
 """ ---------- Routes ---------- """
 
 @bp.route('/generate_deck/deck_from_file/', methods=('GET', 'POST'))
@@ -35,8 +51,14 @@ def deck_from_file():
     n_cards = request.form.get('n_cards')
     prompt = request.form.get('prompt')
     # Decode file content
-    file_content = file.read()
-    text = file_content.decode('utf-8')
+    if is_pdf(file.filename):
+        text = pdf_reader.extract_text(file)
+    elif is_markdown or is_txt:
+        file_content = file.read()
+        text = file_content.decode('utf-8')
+    else:
+        flash('Invalid file')
+        return redirect(url_for('generate_deck.from_file'))
     # Generate deck
     raw_deck = gpt_generate_deck(text, int(n_cards), [prompt])
     if not raw_deck:
