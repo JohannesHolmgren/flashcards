@@ -91,3 +91,33 @@
     margin-top: 10px;
     height: 100px;
 }
+
+.n-pages-box {
+    margin-bottom: 30px;
+    pointer-events: none;
+    opacity: 0.4;
+    text-align: center;
+}
+
+.n-pages-box-active {
+    pointer-events: all;
+    opacity: 1;
+}
+
+.n-pages-box p {
+    margin-bottom: 10px;
+}
+
+.n-pages-box label {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.n-pages-box input {
+    font-size: medium;
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 5px;
+    border: 1px solid var(--detailColor);
+    border-radius: 10px;
+}

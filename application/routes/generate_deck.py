@@ -3,7 +3,7 @@
 """
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
 )
 from flask_login import login_required, current_user
 
@@ -48,11 +48,13 @@ def is_txt(filename: str) -> bool:
 def deck_from_file():
     # Get input
     file = request.files['file']
-    n_cards = request.form.get('n_cards')
+    n_cards = int(request.form.get('n_cards'))
     prompt = request.form.get('prompt')
+    start_page = int(request.form.get('start-page'))
+    end_page = int(request.form.get('end-page'))
     # Decode file content
     if is_pdf(file.filename):
-        text = pdf_reader.extract_text(file)
+        text = pdf_reader.extract_text(file, start_page, end_page)
     elif is_markdown or is_txt:
         file_content = file.read()
         text = file_content.decode('utf-8')
@@ -60,7 +62,7 @@ def deck_from_file():
         flash('Invalid file')
         return redirect(url_for('generate_deck.from_file'))
     # Generate deck
-    raw_deck = gpt_generate_deck(text, int(n_cards), [prompt])
+    raw_deck = gpt_generate_deck(text, n_cards, [prompt])
     if not raw_deck:
         flash('There was an error trying to generate your deck.')
         return redirect(url_for('decks.index'))
@@ -68,6 +70,21 @@ def deck_from_file():
     for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
         Cardhandler.add_card(question, answer, deck_id)
     return redirect(url_for('decks.index'))
+
+@bp.route('/generate_deck/number_of_pdf_pages', methods=['POST'])
+def get_number_of_pdf_pages():
+    # Check if request correct with file
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+    # Check if file selected
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+    # Get page range if is pdf
+    if file and is_pdf(file.filename):
+        page_range = pdf_reader.get_page_range(file)
+        return jsonify({"page_range": page_range})
+    return jsonify({"error": "Not pdf"}), 400
 
 @bp.route('/generate_deck/cards_from_desc<int:deck_id>', methods=('GET', 'POST'))
 @login_required

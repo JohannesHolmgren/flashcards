@@ -15,6 +15,13 @@
         <label class="secondary-button" for="fileElem">Select a file</label>
         <p>Files supported: .pdf, .txt, .md</p>
       </div>
+      <div id="n-pages-box" class="n-pages-box">
+        <p>Page range</p>
+        <!-- <label for="start-page">From</label> -->
+        <input type="number" id="start-page" name="start-page" min="1" max="1" value="1">
+        <label for="end-page">-</label>
+        <input type="number" id="end-page" name="end-page" min="1" max="1" value="1">
+      </div>
       <div class="slider-box">
         <label for="n_cards_slider">Amount of Cards</label>
         <input type="range" min="5" max="75" value="40" step="5" class="slider" id="n_cards_slider" name="n_cards">
