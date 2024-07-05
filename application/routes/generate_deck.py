@@ -10,6 +10,7 @@ from flask_login import login_required, current_user
 from application.handlers import Cardhandler, Deckhandler
 from application.gpt import gpt_generate_deck
 from application.engine import pdf_reader
+from application.engine.handle_markdown import markdown_to_html
 
 # Create blueprint for deck views
 bp = Blueprint('generate_deck', __name__)
@@ -55,7 +56,7 @@ def deck_from_file():
     # Decode file content
     if is_pdf(file.filename):
         text = pdf_reader.extract_text(file, start_page, end_page)
-    elif is_markdown or is_txt:
+    elif is_markdown(file.filename) or is_txt(file.filename):
         file_content = file.read()
         text = file_content.decode('utf-8')
     else:
@@ -68,6 +69,10 @@ def deck_from_file():
         return redirect(url_for('decks.index'))
     deck_id = Deckhandler.add_deck(name=raw_deck.get('name'), description=raw_deck.get('description'), user=current_user)
     for question, answer in zip(raw_deck.get('questions'), raw_deck.get('answers')):
+        # Convert markdown to html
+        if is_markdown(file.filename):
+            question = markdown_to_html(question)
+            answer = markdown_to_html(answer)
         Cardhandler.add_card(question, answer, deck_id)
     return redirect(url_for('decks.index'))
 
