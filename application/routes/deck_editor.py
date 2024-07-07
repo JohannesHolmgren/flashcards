@@ -9,6 +9,8 @@ from flask_login import login_required, current_user
 
 from application.handlers import Cardhandler, Deckhandler
 
+from application.routes.page_stack import PageStack
+
 # Create blueprint for deck views
 bp = Blueprint('deck_editor', __name__)
 
@@ -30,6 +32,7 @@ def deck_save(deck_id: int):
     flash('Deck saved succesfully')
     return redirect(url_for('decks.index'))
 
+@PageStack.stack_page
 @bp.route('/deck_editor/deck_editor', methods=('GET', 'POST')) 
 @login_required
 def deck_editor():

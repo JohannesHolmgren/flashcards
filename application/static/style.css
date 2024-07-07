@@ -38,6 +38,23 @@ a {
     color: var(--detailColor);
 }
 
+.content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+}
+
 .button, .secondary-button {
 	background: none;
 	color: inherit;
@@ -108,6 +125,7 @@ body {
 
 /* ----- New deck editor ----- */
 .newdeck-editor {
+    position: relative;
     width: 80%;
     height: 80vh;
     padding: 20px 10px;
@@ -118,7 +136,7 @@ body {
     justify-content: center;
     border: 1px solid var(--detailColor);
     border-radius: 10px;
-    overflow-y: auto;   /* Make it scroll */
+    overflow: hidden;   /* Make it scroll */
 }
 
 .deck-info {
@@ -169,6 +187,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: auto;
 }
 
 .cards {
@@ -225,4 +244,20 @@ body {
     padding: 10px;
     resize: none;
     border-radius: 10px;
+}
+
+
+.close-view-button {
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7px;
+    border: 1px solid var(--detailColor);
+    border-radius: 50px;
+    background-color: var(--backgroundColor);
 }

@@ -4,15 +4,18 @@ from flask import (
 from flask_login import login_required, current_user
 
 from application.handlers import Deckhandler
+from application.routes.page_stack import PageStack
 
 # Create blueprint for deck views
 bp = Blueprint('decks', __name__)
 
 # A simple start page
+@PageStack.stack_page
 @bp.route('/')
 def home():
     return redirect(url_for('decks.index'))
 
+@PageStack.stack_page
 @bp.route('/decks', methods=('GET', 'POST'))
 @login_required
 def index():
