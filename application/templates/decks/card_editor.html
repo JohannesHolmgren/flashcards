@@ -21,7 +21,7 @@
           </div>
       </form>
     </div>
-    <a class="close-view-button" href="{{}}"> <!-- TODO: Add go back thing here -->
+    <a class="close-view-button" href="{{ url_for('deck_editor.deck_editor', deck_id=card.deck_id) }}">
       <i class="fa-solid fa-arrow-left"></i>
     </a>
   </div>

@@ -32,25 +32,27 @@ def deck_save(deck_id: int):
     flash('Deck saved succesfully')
     return redirect(url_for('decks.index'))
 
-@PageStack.stack_page
-@bp.route('/deck_editor/deck_editor/', methods=('GET', 'POST')) 
+@bp.route('/deck_editor/deck_editor/<int:deck_id>', methods=('GET', 'POST')) 
 @login_required
-def deck_editor():
-    """ Arguments passed:
-        deck_id: id or None
-    """
-    # Load deck if exists
-    deck_id = request.args.get('deck_id')
-    if deck_id:
-        if not Deckhandler.is_owned_by(current_user, deck_id):
-            flash("You don't have permission to edit this deck")
-            return redirect(url_for('decks.index'))
-        deck = Deckhandler.get_deck(deck_id)
-        cards = Cardhandler.get_cards(deck_id)
-    # No id means new deck
-    else:
-        deck_id = Deckhandler.new_deck(current_user)
-        deck = Deckhandler.get_deck(deck_id)
-        cards = Cardhandler.get_cards(deck_id)  # Will always be empty
+def deck_editor(deck_id: int):
+    # Deck can't be loaded
+    if not deck_id:
+        flash('The deck cannot be loaded')
+        return redirect(url_for('decks.index'))
+    # Deck does not belong to current user
+    if not Deckhandler.is_owned_by(current_user, deck_id):
+        flash("You don't have permission to edit this deck")
+        return redirect(url_for('decks.index'))
+    # Load deck
+    deck = Deckhandler.get_deck(deck_id)
+    cards = Cardhandler.get_cards(deck_id)
+    return render_template('decks/deck_editor.html', deck=deck, cards=cards)
 
+@bp.route('/deck_editor/new_deck/', methods=('GET', 'POST')) 
+@login_required
+def new_deck():
+    # Create new deck
+    deck_id = Deckhandler.new_deck(current_user)
+    deck = Deckhandler.get_deck(deck_id)
+    cards = Cardhandler.get_cards(deck_id)  # Will always be empty
     return render_template('decks/deck_editor.html', deck=deck, cards=cards)

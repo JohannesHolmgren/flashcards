@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from application.handlers import Cardhandler
 
@@ -28,22 +28,27 @@ def card_save(card_id: int):
     Cardhandler.set_card_back(back, card_id)
     return redirect(url_for('deck_editor.deck_editor', deck_id=deck_id))
 
-@bp.route('/card_editor', methods=('GET', 'POST'))
+@bp.route('/card_editor/card_editor<int:card_id>', methods=('GET', 'POST'))
 @login_required
-def card_editor():
-    """
-        Arguments passed:
-        card_id: id or None
-    """
-    # Load card if exists else create new card
-    card_id = request.args.get('card_id')
-    deck_id = request.args.get('deck_id')
+def card_editor(card_id):
+    # Card can't be loaded
+    if not card_id:
+        flash('The card cannot be loaded')
+        return redirect(url_for('decks.index'))
+    # Card does not belong to current user
+    if not Cardhandler.is_owned_by(current_user, card_id):
+        flash("You don't have permission to edit this card")
+        return redirect(url_for('decks.index'))
+    # Load card
+    card = Cardhandler.get_card(card_id)
+    return render_template('decks/card_editor.html', card=card)
+
+@bp.route('/card_editor/new_card<int:deck_id>', methods=('GET', 'POST'))
+@login_required
+def new_card(deck_id):
     if not deck_id:
         flash('NO DECK ID! WARNING')
-    if card_id:
-        card = Cardhandler.get_card(card_id)
-    else:
-        card_id = Cardhandler.new_card(deck_id)
-        card = Cardhandler.get_card(card_id)
-    
+    # Create new card
+    card_id = Cardhandler.new_card(deck_id)
+    card = Cardhandler.get_card(card_id)
     return render_template('decks/card_editor.html', card=card)

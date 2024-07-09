@@ -1,6 +1,6 @@
 from application.models.card import Card
 from application.models.base import db
-
+from application.handlers.deckhandler import Deckhandler
 class Cardhandler:
 
     @staticmethod    
@@ -52,3 +52,9 @@ class Cardhandler:
     def create_cards(questions, answers, deck_id):
         for question, answer in zip(questions, answers):
             Cardhandler.add_card(question, answer, deck_id)
+
+    @staticmethod
+    def is_owned_by(user: object, card_id: int) -> bool:
+        card = Cardhandler.get_card(card_id)
+        deck = Deckhandler.get_deck(card.deck_id)
+        return deck.user_id == user.id
