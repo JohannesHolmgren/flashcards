@@ -33,7 +33,7 @@ def deck_save(deck_id: int):
     return redirect(url_for('decks.index'))
 
 @PageStack.stack_page
-@bp.route('/deck_editor/deck_editor', methods=('GET', 'POST')) 
+@bp.route('/deck_editor/deck_editor/', methods=('GET', 'POST')) 
 @login_required
 def deck_editor():
     """ Arguments passed:

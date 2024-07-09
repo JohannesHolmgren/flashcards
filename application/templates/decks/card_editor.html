@@ -5,19 +5,24 @@
 {% endblock %}
 
 {% block content %}
-  <div class="card-editor">
-    <!-- Edit current information -->
-    <form method="post" action="{{ url_for('card_editor.card_save', card_id=card.id) }}">
-        <input type="hidden" name="deck_id" value="{{ card.deck_id }}">
-        <input type="hidden" name="id" value="{{ card.id }}">
-        <h2>Question</h2>
-        <textarea name="front" id="card-front" placeholder="Add a frontside...">{{card.question}}</textarea>
-        <h2>Answer</h2>
-        <textarea name="back" id="card-back" placeholder="Add a backside...">{{ card.answer }}</textarea>
-        <div class="deck-actions">
-          <a href="{{ url_for('card_editor.card_delete', card_id=card.id) }}" class="button delete-btn">Delete</a>
-          <button type="submit" name="action" value="save-card" class="button">Save</button>
-        </div>
-    </form>
+  <div class="page">
+    <div class="card-editor">
+      <!-- Edit current information -->
+      <form method="post" action="{{ url_for('card_editor.card_save', card_id=card.id) }}">
+          <input type="hidden" name="deck_id" value="{{ card.deck_id }}">
+          <input type="hidden" name="id" value="{{ card.id }}">
+          <h2>Question</h2>
+          <textarea name="front" id="card-front" placeholder="Add a frontside...">{{card.question}}</textarea>
+          <h2>Answer</h2>
+          <textarea name="back" id="card-back" placeholder="Add a backside...">{{ card.answer }}</textarea>
+          <div class="deck-actions">
+            <a href="{{ url_for('card_editor.card_delete', card_id=card.id) }}" class="button delete-btn">Delete</a>
+            <button type="submit" name="action" value="save-card" class="button">Save</button>
+          </div>
+      </form>
+    </div>
+    <a class="close-view-button" href="{{}}"> <!-- TODO: Add go back thing here -->
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
   </div>
 {% endblock %}
