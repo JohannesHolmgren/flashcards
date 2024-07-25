@@ -5,8 +5,10 @@
 {% endblock %}
 
 {% block content %}
-  <div class="card-editor">
-    <p>{{ card.question }}</p>
+  <div class="card-editor play-card-container">
+    <div class="play-card-text">
+      <p>{{ card.question }}</p>
+    </div>
     <a href="{{ url_for('play.play_card_back', card_id=card.id) }}" class="button">Show Answer</a>
   </div>
 {% endblock %}
