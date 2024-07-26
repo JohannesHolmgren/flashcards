@@ -74,10 +74,17 @@
 
 .play-card-text {
     text-align: center;
+    margin: auto;
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
 .play-card-container {
     display: flex;
     width: 400px;
     
+}
+
+.play-card-actions {
+    margin-bottom: 30px;
 }

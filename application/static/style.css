@@ -20,8 +20,8 @@
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-    --backgroundColor: #1E1E1E;
-    --detailColor: #DADADA;
+    --backgroundColor: #ffffff;
+    --detailColor: #151515;
     --accentColor: #40798C;
     --navHeight: 10vh;
     font-family: 'Inter';
