@@ -91,7 +91,7 @@ def get_number_of_pdf_pages():
         return jsonify({"page_range": page_range})
     return jsonify({"error": "Not pdf"}), 400
 
-@bp.route('/generate_deck/cards_from_desc<int:deck_id>', methods=('GET', 'POST'))
+@bp.route('/generate_deck/cards_from_desc/<int:deck_id>', methods=('GET', 'POST'))
 @login_required
 def cards_from_desc(deck_id):
     # Save deck

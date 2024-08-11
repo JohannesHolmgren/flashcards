@@ -53,6 +53,7 @@ a {
     align-items: center;
     width: fit-content;
     height: fit-content;
+    margin-top: var(--navHeight);
 }
 
 .button, .secondary-button {

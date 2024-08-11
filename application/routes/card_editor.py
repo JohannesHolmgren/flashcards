@@ -28,7 +28,7 @@ def card_save(card_id: int):
     Cardhandler.set_card_back(back, card_id)
     return redirect(url_for('deck_editor.deck_editor', deck_id=deck_id))
 
-@bp.route('/card_editor/card_editor<int:card_id>', methods=('GET', 'POST'))
+@bp.route('/card_editor/card_editor/<int:card_id>', methods=('GET', 'POST'))
 @login_required
 def card_editor(card_id):
     # Card can't be loaded
@@ -43,7 +43,7 @@ def card_editor(card_id):
     card = Cardhandler.get_card(card_id)
     return render_template('decks/card_editor.html', card=card)
 
-@bp.route('/card_editor/new_card<int:deck_id>', methods=('GET', 'POST'))
+@bp.route('/card_editor/new_card/<int:deck_id>', methods=('GET', 'POST'))
 @login_required
 def new_card(deck_id):
     if not deck_id:

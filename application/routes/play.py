@@ -38,7 +38,7 @@ class PlayThrough:
 # Global playthrough
 playthrough = None
 
-@bp.route('/play/init_play_all<int:deck_id>', methods=('GET', 'POST'))
+@bp.route('/play/init_play_all/<int:deck_id>', methods=('GET', 'POST'))
 @login_required
 def init_play_all(deck_id):
     # global card_ids
@@ -49,7 +49,7 @@ def init_play_all(deck_id):
 
     return redirect(url_for('play.play_new_card', deck_id=deck_id))
 
-@bp.route('/play/play_new_card<int:deck_id>')
+@bp.route('/play/play_new_card/<int:deck_id>')
 @login_required
 def play_new_card(deck_id):
     
@@ -68,19 +68,20 @@ def play_new_card(deck_id):
         n_total_cards=n_total_cards
     ))
 
-@bp.route('/play/play_card_front<int:card_id><int:n_cards_played><int:n_total_cards>', methods=('GET', 'POST'))
+@bp.route('/play/play_card_front/<int:card_id>/<int:n_cards_played>/<int:n_total_cards>', methods=('GET', 'POST'))
 @login_required
 def play_card_front(card_id, n_cards_played, n_total_cards):
+    print(card_id)
     card = Cardhandler.get_card(card_id)
     return render_template('decks/play_card_front.html', card=card, n_cards_played=n_cards_played, n_total_cards=n_total_cards)
 
-@bp.route('/play/play_card_back<int:card_id><int:n_cards_played><int:n_total_cards>', methods=('GET', 'POST'))
+@bp.route('/play/play_card_back/<int:card_id>/<int:n_cards_played>/<int:n_total_cards>', methods=('GET', 'POST'))
 @login_required
 def play_card_back(card_id, n_cards_played, n_total_cards):
     card = Cardhandler.get_card(card_id)
     return render_template('decks/play_card_back.html', card=card, n_cards_played=n_cards_played, n_total_cards=n_total_cards)
 
-@bp.route('/play/play_end<int:deck_id>', methods=('GET', 'POST'))
+@bp.route('/play/play_end/<int:deck_id>', methods=('GET', 'POST'))
 @login_required
 def play_end(deck_id):
     deck = Deckhandler.get_deck(deck_id)
