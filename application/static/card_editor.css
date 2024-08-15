@@ -1,0 +1,54 @@
+.card-editor-box {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 500px;
+    padding: 20px 40px;
+    border: 1px solid var(--accentColor);
+    border-radius: 10px;
+}
+
+.card-editor-box form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-editor-box h2 {
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.card-editor-box textarea {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 20px;
+    padding: 10px;
+    resize: none;
+    border-radius: 10px;
+    text-align: center;
+    font-size: small;
+}
+
+.back-button {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 5px;
+    left: 5px;
+    cursor: pointer;
+}
+
+.page {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+}

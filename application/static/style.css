@@ -5,6 +5,8 @@
 @import 'login.css';
 @import 'register.css';
 @import 'generate.css';
+@import 'card_editor.css';
+@import 'common.css';
 
 /* Get inter font */
 .inter-font {
@@ -44,16 +46,6 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.page {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    height: fit-content;
-    margin-top: var(--navHeight);
 }
 
 .button, .secondary-button {

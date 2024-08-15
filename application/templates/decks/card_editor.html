@@ -6,7 +6,7 @@
 
 {% block content %}
   <div class="page">
-    <div class="card-editor">
+    <div class="card-editor-box">
       <!-- Edit current information -->
       <form method="post" action="{{ url_for('card_editor.card_save', card_id=card.id) }}">
           <input type="hidden" name="deck_id" value="{{ card.deck_id }}">
@@ -21,7 +21,7 @@
           </div>
       </form>
     </div>
-    <a class="close-view-button" href="{{ url_for('deck_editor.deck_editor', deck_id=card.deck_id) }}">
+    <a class="back-button" href="{{ url_for('deck_editor.deck_editor', deck_id=card.deck_id) }}">
       <i class="fa-solid fa-arrow-left"></i>
     </a>
   </div>
