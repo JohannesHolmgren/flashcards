@@ -6,6 +6,7 @@
 @import 'register.css';
 @import 'generate.css';
 @import 'card_editor.css';
+@import 'deck_editor.css';
 @import 'common.css';
 
 /* Get inter font */
@@ -45,7 +46,7 @@ a {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    
 }
 
 .button, .secondary-button {
@@ -99,19 +100,22 @@ body {
 
 /* Content */
 .content {
-    width: 70%;
+    width: 100%;
     /* Set top margin to height of navbar */
     height: calc(100vh - var(--navHeight));
     margin-top: var(--navHeight);
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 /* Deck view */
 #deckviewer {
+    width: 75%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: flex-start;
     gap: 16px;
     padding: 16px;
 }
@@ -130,15 +134,6 @@ body {
     border: 1px solid var(--detailColor);
     border-radius: 10px;
     overflow: hidden;   /* Make it scroll */
-}
-
-.deck-info {
-    width: 60%;
-    height: 60%;
-    padding: 0px 0px 30px 0px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 #deck-name {
@@ -172,15 +167,6 @@ body {
 
 .generate-btn {
     border: 1px solid #709255;
-}
-
-.cardview {
-    width: 100%;
-    height: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: auto;
 }
 
 .cards {

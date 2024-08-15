@@ -1,0 +1,39 @@
+.newdeck-editor-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    padding: 20px 40px;
+    border: 1px solid var(--detailColor);
+    border-radius: 10px;
+}
+
+/* This .deck-info */
+.newdeck-editor-box form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.newdeck-editor-box textarea {
+    width: 100%;
+    height: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    resize: none;
+    border-radius: 10px;
+    text-align: center;
+    font-size: small;
+}
+
+.cardview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+}
