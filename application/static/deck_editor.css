@@ -1,10 +1,22 @@
+.newdeck-editor-box-outer {
+    grid-column-start: 2;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    margin-top: 20px;
+}
+
 .newdeck-editor-box {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 400px;
-    padding: 20px 40px;
+    width: 100%;
+    padding: 20px 60px;
     border: 1px solid var(--detailColor);
     border-radius: 10px;
 }
@@ -30,10 +42,39 @@
 }
 
 .cardview {
-    width: 100%;
     height: 100%;
+    padding: 20px 20px 0px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: auto;
+    overflow: scroll;
+}
+
+.deck-page {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 1190px) {
+    .deck-page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cardview {
+
+    }
+
+
+}
+
+/* ===== Card ===== */
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 13px;
+    /* padding: 16px */
 }

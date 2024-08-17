@@ -1,3 +1,14 @@
+/* 
+    File: card.css
+
+    Everything related to a single card in the 
+    deck editor-view, but not the editing of a card.
+
+    Related files:
+    - 'deck_editor.css': Where these cards are found. Used to position cards
+    - 'card_editor.css': Style for the editor-page of a card (i.e. when open card)
+*/
+
 .card {
     position: relative;
     width: 150px;
@@ -70,21 +81,4 @@
 
 .card-back {
     transform: rotateY(180deg);
-}
-
-.play-card-text {
-    text-align: center;
-    margin: auto;
-    margin-left: 30px;
-    margin-right: 30px;
-}
-
-.play-card-container {
-    display: flex;
-    width: 400px;
-    
-}
-
-.play-card-actions {
-    margin-bottom: 30px;
 }

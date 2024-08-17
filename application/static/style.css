@@ -8,6 +8,7 @@
 @import 'card_editor.css';
 @import 'deck_editor.css';
 @import 'common.css';
+@import 'play_card.css';
 
 /* Get inter font */
 .inter-font {
@@ -120,6 +121,12 @@ body {
     padding: 16px;
 }
 
+@media (max-width: 920px) {
+    #deckviewer {
+        width: 100%;
+    }
+}
+
 /* ----- New deck editor ----- */
 .newdeck-editor {
     position: relative;
@@ -167,14 +174,6 @@ body {
 
 .generate-btn {
     border: 1px solid #709255;
-}
-
-.cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-    padding: 16px
 }
 
 .edit-button {

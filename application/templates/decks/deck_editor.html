@@ -5,25 +5,27 @@
 {% endblock %}
 
 {% block content %}
-    <div class="page">
-      <div class="newdeck-editor-box">
-        <!-- Edit current information -->
-        <form method="post" action="{{ url_for('deck_editor.deck_save', deck_id=deck.id) }}" class="deck-info">
-            <input type="hidden" name="id" value="{{deck.id}}">
-            <input type="text" name="name" id="deck-name" placeholder="Name" value="{{ deck.name }}">
-            <textarea name="description" id="deck-description" placeholder="Add a description...">{{ deck.description }}</textarea>
-            <div class="deck-actions">
-              <a href="{{ url_for('deck_editor.deck_delete', deck_id=deck.id) }}" class="button delete-btn">Delete</a>
-              <a href="#" class="button generate-btn" onclick="submitGenerateForm()">Generate</a>
-              <button type="submit" name="action" value="save-deck" class="btn button">Save</button>
-            </div>
-        </form>
+    <div class="deck-page">
+      <div class="newdeck-editor-box-outer">
+        <div class="newdeck-editor-box">
+          <!-- Edit current information -->
+          <form method="post" action="{{ url_for('deck_editor.deck_save', deck_id=deck.id) }}" class="deck-info">
+              <input type="hidden" name="id" value="{{deck.id}}">
+              <input type="text" name="name" id="deck-name" placeholder="Name" value="{{ deck.name }}">
+              <textarea name="description" id="deck-description" placeholder="Add a description...">{{ deck.description }}</textarea>
+              <div class="deck-actions">
+                <a href="{{ url_for('deck_editor.deck_delete', deck_id=deck.id) }}" class="button delete-btn">Delete</a>
+                <a href="#" class="button generate-btn" onclick="submitGenerateForm()">Generate</a>
+                <button type="submit" name="action" value="save-deck" class="btn button">Save</button>
+              </div>
+          </form>
+        </div>
+        <a class="back-button" href="{{ url_for('decks.index') }}"> <!-- TODO: Add go back thing here -->
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
       </div>
-      <a class="back-button" href="{{ url_for('decks.index') }}"> <!-- TODO: Add go back thing here -->
-        <i class="fa-solid fa-arrow-left"></i>
-      </a>
       <div class="cardview">
-        <h2>Cards</h2>
+        <!-- <h2>Cards</h2> -->
         <ul class="cards">
           <!-- Add new card -->
           <a class="card-link" href="{{ url_for('card_editor.new_card', deck_id=deck.id) }}">
@@ -51,9 +53,6 @@
           {% endfor %}
         </ul>
       </div>
-    </div>
-    <div class="deck-side">
-      
     </div>
     
   <!-- To make the card rotate on press -->
