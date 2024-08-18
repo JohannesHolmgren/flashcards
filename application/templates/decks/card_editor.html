@@ -12,9 +12,9 @@
           <input type="hidden" name="deck_id" value="{{ card.deck_id }}">
           <input type="hidden" name="id" value="{{ card.id }}">
           <h2>Question</h2>
-          <textarea name="front" id="card-front" placeholder="Add a frontside...">{{card.question}}</textarea>
+          <textarea name="front" placeholder="Add a frontside...">{{card.question}}</textarea>
           <h2>Answer</h2>
-          <textarea name="back" id="card-back" placeholder="Add a backside...">{{ card.answer }}</textarea>
+          <textarea name="back" placeholder="Add a backside...">{{ card.answer }}</textarea>
           <div class="deck-actions">
             <a href="{{ url_for('card_editor.card_delete', card_id=card.id) }}" class="button delete-btn">Delete</a>
             <button type="submit" name="action" value="save-card" class="button">Save</button>

@@ -143,30 +143,6 @@ body {
     overflow: hidden;   /* Make it scroll */
 }
 
-#deck-name {
-    text-align: center;
-    height: 2em;
-    font-size: x-large;
-    border: none;
-    border-bottom: 1px solid var(--detailColor);
-
-}
-
-#deck-description {
-    width: auto;
-    height: 200px;
-    padding: 10px;
-    resize: none;
-    border-radius: 10px;
-}
-
-.deck-actions {
-    align-self: center;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
 .delete-btn {
    border: 2px solid #A8201A;
     font-weight: 500;
