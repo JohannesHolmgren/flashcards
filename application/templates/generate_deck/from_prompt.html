@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Generate deck{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="deck-page">
+    <div class="newdeck-editor-box-outer">
+      <div class="newdeck-editor-box">
+        <form class="generate-form" method="post" action="{{url_for('generate_deck.generate_deck_begin') }}">
+            <h2>Prompt</h2>
+            <textarea name="prompt" id="" placeholder="Enter a prompt..."></textarea>
+            <h2>Focus Areas</h2>
+            <div class="focus-boxes">
+                <input type="checkbox" name="focus_areas" value="dates" id="dates">
+                <label for="dates">Dates</label>
+                <input type="checkbox" name="focus_areas" value="names" id="names">
+                <label for="names">Names</label>
+            </div>
+            <h2>Number of Cards</h2>
+            <div class="quantity-boxes">
+                <input type="radio" class="button" name="quantity" value="few" id="few">
+                <label for="few">Few</label>
+                <input type="radio" class="button" name="quantity" value="medium" id="medium" checked>
+                <label for="medium">Medium</label>
+                <input type="radio" class="button" name="quantity" value="many" id="many">
+                <label for="many">Many</label>
+            </div>
+            <button type="submit" value="generate-deck" class="button">Generate Deck</button>
+        </form>
+      </div>
+      <a class="back-button" href="{{ url_for('decks.index') }}">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+    </div>
+  </div>
+{% endblock %}

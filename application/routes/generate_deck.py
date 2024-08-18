@@ -112,7 +112,7 @@ def cards_from_desc(deck_id):
 @bp.route('/generate_deck/from_prompt')
 @login_required
 def from_prompt():
-    return render_template('decks/generate_deck.html')
+    return render_template('/generate_deck/from_prompt.html')
 
 @bp.route('/generate_deck/from_file')
 @login_required
