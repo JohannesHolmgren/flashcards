@@ -5,15 +5,17 @@
 {% endblock %}
 
 {% block content %}
-  <p>{{n_cards_played}} of {{n_total_cards}} cards played</p>
-  <div class="card-editor play-card-container">
-    <p>Answer</p>
-    <div class="play-card-text">
-      <p>{{ card.answer }}</p>
-    </div>
-    <div class="play-card-actions">
-      <a href="{{ url_for('play.play_card_front', card_id=card.id, n_cards_played=n_cards_played, n_total_cards=n_total_cards) }}" class="button">Show Question</a>
-      <a href="{{ url_for('play.play_new_card', deck_id=card.deck_id) }}" class="button">Next Card</a>
+  <div class="play-card-page">
+    <p>{{n_cards_played}} of {{n_total_cards}} cards played</p>
+    <div class="play-card-container">
+      <p>Answer</p>
+      <div class="play-card-text">
+        <p>{{ card.answer }}</p>
+      </div>
+      <div class="play-card-actions">
+        <a href="{{ url_for('play.play_card_front', card_id=card.id, n_cards_played=n_cards_played, n_total_cards=n_total_cards) }}" class="button">Show Question</a>
+        <a href="{{ url_for('play.play_new_card', deck_id=card.deck_id) }}" class="button">Next Card</a>
+      </div>
     </div>
   </div>
 {% endblock %}
